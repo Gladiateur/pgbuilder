@@ -1,0 +1,64 @@
+/*
+ * Wsd.java 18/9/30
+ */
+package gla.pgbuilder.test;
+
+/**
+ * W(web)S(Service)D(Dao)
+ * 
+ * @author Gladiateur
+ */
+class Wsd{
+	private String perfix = null;
+	//web中可能不止一个：w:controller,action
+	//service也是：s:service.impl,ebi.ebo
+	//dao也是：mapper,dao.impl
+	private String web = null;
+	private String service = null ;
+	private String dao = null;
+	
+	public String getPerfix() {
+		return perfix;
+	}
+	public void setPerfix(String perfix) {
+		this.perfix = perfix;
+	}
+	public String getWeb() {
+		return web;
+	}
+	public void setWeb(String web) {
+		if(!check(web)){
+			throw new RuntimeException("w:格式非法");
+		}
+		this.web = web;
+	}
+	public String getService() {
+		return service;
+	}
+	public void setService(String service) {
+		if(!check(service)){
+			throw new RuntimeException("s:格式非法");
+		}
+		this.service = service;
+	}
+	public String getDao() {
+		return dao;
+	}
+	public void setDao(String dao) {
+		if(!check(dao)){
+			throw new RuntimeException("d:格式非法");
+		}
+		this.dao = dao;
+	}
+
+	@Override
+	public String toString() {
+		return "Wsd [perfix=" + perfix + ", web=" + web + ", service="
+				+ service + ", dao=" + dao + "]";
+	}
+	
+	private static boolean check(String param){
+		return param.trim().
+		matches("([a-zA-Z_][a-zA-Z0-9_]*[.|,])*([a-zA-Z_][a-zA-Z0-9_]*)$");
+	}
+}

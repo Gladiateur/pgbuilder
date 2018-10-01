@@ -1,0 +1,20 @@
+package gla.pgbuilder.test;
+
+//package api test
+public class Test2 {
+	//package   
+	/*
+	 * package api
+	 * 	void create();
+	 * 	Class<?>[] getClasses();
+	 * 	boolean containsClasses();
+	 * 	String[] getClassedSimpleName();
+	 */
+	public static void main(String[] args) {
+		 Package[] pgs = Package.getPackages();
+		for (Package package1 : pgs) {
+			System.out.println(package1);
+		}
+		
+	}
+}

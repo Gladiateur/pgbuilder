@@ -1,0 +1,190 @@
+package gla.pgbuilder.test;
+
+public class Test {
+
+	/*
+	 * 
+	1.根据实体类生成各层的类，命名：实体类+包名后缀
+	2.各层注解：w:@Controller,@RequestMapping;s:接口不写注解，实现类@Service,d:mapper不写注解，dao需要些@Repository
+	3.完成各层依赖注入，使用自动装配@Autowird注解，w->s,s->m
+	
+	@Controller
+	@RequestMapping
+	
+	@Autowird
+	
+	@Service*/
+	 public static void main(String[] args) {
+//		String wsd_pojo = "gla.myapp.pojo";
+//		String wsd_url = 
+//		 "wsd://gla.myapp.pgbuilder/w:controller;s:service.impl;d:mapper;";
+//		System.out.println(wsd_url.substring(0, 6).equalsIgnoreCase("WsD://"));
+//		System.out.println(wsd_url.substring(6));
+//		System.out.println(wsd_url.substring(6).split("/").length);
+//		String wsd_url_pg=wsd_url.substring(6);
+//		System.out.println(wsd_url_pg.substring(0,wsd_url.substring(6).indexOf('/')));
+//		System.out.println(wsd_url.substring(6).indexOf('/'));
+//		String wsd_url_pg=wsd_url.substring(6);
+//		System.out.println(wsd_url_pg.substring(wsd_url_pg.indexOf('/')+1));
+		
+		String params_body = "w:controller;s:service.impl;d:mapper;";
+		String[] paramsBodyArr = params_body.split(";");
+//		System.out.println(paramsBodyArr.length);
+		String web = null,service = null , dao = null;
+		for (String string : paramsBodyArr) {
+//			System.out.println(string.substring(0,1));
+//			System.out.println(string.trim());
+			if("w".equalsIgnoreCase(string.substring(0,1))){
+				if(web != null){
+					throw new IllegalArgumentException("w");
+				}
+				web = string.substring(2);
+			}
+			if("s".equalsIgnoreCase(string.substring(0,1))){
+				if(service != null){
+					throw new IllegalArgumentException("s");
+				}
+				service = string.substring(2);
+			}
+			if("d".equalsIgnoreCase(string.substring(0,1))){
+				if(dao != null){
+					throw new IllegalArgumentException("d");
+				}
+				dao = string.substring(2);
+			}
+		}
+		System.out.println("web="+web);
+		System.out.println("service="+service);
+		System.out.println("dao="+dao);
+		 
+//		System.out.println(1<<3);
+		//设计思路
+		/*
+		 * 设：
+		 * gla.myapp.pgbuilder.pojo中有
+		 * User,Order类
+		 * 
+		 * 最终结果：
+		 * gla.myapp.pgbuilder.controller
+		 * 	且生成：UserController,OrderController
+		 * 	以其一为例：
+		 * 		package ${var}; 
+		 * 		import ${var}.Conrtoller;
+		 * 		import ${var}.Autowird;
+		 * 		import ${var};
+		 * 		@Conrtoller class UserController{ @Autowird private ${var} ${var};  }
+		 * 
+		 * gla.myapp.pgbuilder.service
+		 * 	且生成：UserService,OrderService
+		 * 以其一为例：
+		 * 	package ${var};
+		 *  
+		 *  class UserService{ //empty  }
+		 *  
+		 * gla.myapp.pgbuilder.service.impl
+		 * 	且生成：UserServiceImpl,OrderServiceImpl;
+		 * 以其一为例：
+		 * 	package ${var};
+		 *  import ${var};
+		 *  import ${var}.Service;
+		 *  import ${var}.Autowird;
+		 *  
+		 *  @Service class UserServiceImpl implements ${var}{ @Autowird private ${var} ${var}; }
+		 * 
+		 * gla.myapp.pgbuilder.mapper
+		 * 且不需要生成XxxMapper因为可用逆向工程生成。
+		 * 
+		 * 以上：	pojo,mapper部分使用逆向工程生成。
+		 * 		service,service.impl,controller可根据表达式生成对应的包和类，并完成依赖注入。
+		 * 
+		 * 
+		 * 解析wsd_url算法：
+		 * 	定义WSD1.0:
+		 * 	定义wsd_url格式：wsd://perfix/[w,s,d]:[包名（若用点隔开则可递归生成子包）];
+		 * 	其中：wsd1.0目前只允许出现w,s,d三种参数，且最多出现一次，且三个参数顺序无关。
+		 * 	对空格的要求：wsd://之间不允许包含空格，即wsd   ://或wsd:  //或wsd:/   /等写法均无效。
+		 * 
+		 * 	wsd_pojo = "gla.myapp.pojo";
+		 * 	wsd_pojo允许首尾含有空格，但不允许中间包含空格。
+		 * 
+		 * 
+		 * 
+		 * 	解析：
+		 * 		必须参数：wsd_pojo，wsd_url
+		 * 		例如：wsd_pojo = "gla.myapp.pojo";
+		 * 			wsd_url = "wsd://gla.myapp.pgbuilder/w:controller;s:service.impl;d:mapper;";
+		 * 		
+		 * 		最后解析的格式为：
+		 * 		
+		 * 		perfix:gla.myapp.pgbuilder	>>> /gla/myapp/pgbuilder
+		 * 		w(web):controller			>>>	/controller
+		 * 		s(service):service.impl		>>>	/service/impl
+		 * 		d(dao):mapper				>>>	/mapper
+		 * 
+		 * 		(我猜应该可以开三个线程w,s,d同时创建包和类。)
+		 * 
+		 * 		1.去除wsd_url首尾空格。
+		 * 		2.忽略大小写验证头部分：wsd_url.substring(0, 6).equalsIgnoreCase("wsd://")
+		 * 		3.证明在前缀后使用"/"符号后不再使用该符号：
+		 * 			wsd_url.substring(6).split("/").length === 2。
+		 * 		4.解析前缀包名：
+		 * 			wsd_url_pg.substring(0,wsd_url.substring(6).indexOf('/')
+		 * 		5.解析参数部分：
+		 * 			wsd_url_pg.substring(wsd_url_pg.indexOf('/')+1)
+		 * 		6.内部类：参数体对象
+		 * 			例如：w:controller;s:service.impl;d:mapper;
+		 * 			解析参数体：
+		 * 				6.1 去除参数体首尾空格 params_body=params_body.trim()
+		 * 				6.2 判断末尾是否是分号,由于末尾是否有分号或连续几个分号并不影响结果因此该步骤省略。
+		 * 				6.3 获取数组：String[] paramsBodyArr = params_body.split(";");
+		 * 				6.4 高级for循环遍历该数组，每遍历一个元素都为其去除首尾空格
+		 * 					for (String string : paramsBodyArr) {
+		 *						string = string.trim();
+		 *						...
+		 *					}
+		 * 					(我猜内部需要缓存)
+		 * 					如何证明数组中各个元素的第一个字符在w,s,d中仅出现一次。
+		 * 					放弃证明这个思路。现在的思路是定义三个变量web,service,dao,且初始化均为null,
+		 * 					循环遍历途中判断首个字符，并赋值给对应变量，
+		 * 					若该变量不为null(说明已被赋值，同时也说明本次循环收个字符又出现一次，所以抛出参数异常)
+		 * 					若该变量为null则进行赋值。
+		 * 					大致代码：
+		 * 						String web = null,service = null , dao = null;
+		 *						for (String string : paramsBodyArr) {
+		 *							System.out.println(string.substring(0,1));
+		 *							System.out.println(string.trim());
+		 *							if("w".equalsIgnoreCase(string.substring(0,1))){
+		 *								if(web != null){
+		 *									throw new IllegalArgumentException("w");
+		 *								}
+		 *								web = string.substring(2);
+		 *							}
+		 *							if("s".equalsIgnoreCase(string.substring(0,1))){
+		 *								if(service != null){
+		 *									throw new IllegalArgumentException("s");
+		 *								}
+		 *								service = string.substring(2);
+		 *							}
+		 *							if("d".equalsIgnoreCase(string.substring(0,1))){
+		 *								if(dao != null){
+		 *									throw new IllegalArgumentException("d");
+		 *								}
+		 *								dao = string.substring(2);
+		 *							}
+		 *						}
+		 *						System.out.println("web="+web);
+		 *						System.out.println("service="+service);
+		 *						System.out.println("dao="+dao);
+		 * 		7.至此，表达式解析完成。原表达式：
+		 * 		 wsd_url = "wsd://gla.myapp.pgbuilder/w:controller;s:service.impl;d:mapper;";	
+		 * 		在经过格式校验之后，已被解析为：
+		 * 			perfix:gla.myapp.pgbuilder
+		 * 			web:controller
+		 * 			service:service.impl
+		 * 			dao:mapper
+		 * 
+		 * 
+		 * 
+		 */
+	}
+}

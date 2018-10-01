@@ -1,0 +1,9 @@
+package gla.pgbuilder.test;
+
+public class Test7 {
+	public static void main(String[] args) {
+		String wsd_url =
+		  "wsd://com.asiasoft.xapp/w:action;s:service.impl;d:mapper";
+		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+}

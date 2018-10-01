@@ -1,0 +1,23 @@
+/*
+ * Wsd.java 18/9/30
+ */
+package gla.pgbuilder.test;
+
+/**
+ * W(web)S(Service)D(Dao)
+ * 
+ * @author Gladiateur
+ */
+class Wsd{
+	String perfix = null;
+	//web中可能不止一个：w:controller,action
+	//service也是：s:service.impl,ebi.ebo
+	//dao也是：mapper,dao.impl
+	String web = null,service = null , dao = null;
+	
+	@Override
+	public String toString() {
+		return "Wsd [perfix=" + perfix + ", web=" + web + ", service="
+				+ service + ", dao=" + dao + "]";
+	}
+}

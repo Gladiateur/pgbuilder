@@ -1,0 +1,21 @@
+package gla.pgbuilder.test;
+
+import org.junit.Test;
+
+public class Test7 {
+	
+	@Test
+	public void test(){
+		String wsd_url =
+			  "wsd://com.apache.xapp/w:controller;s:service.impl;d:mapper";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+	
+	//bug:wsd_url = "wsd://xx/xx";时校验通过但无结果
+	@Test
+	public void test0(){
+		String wsd_url =
+			  "wsd://xx/xx";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+}

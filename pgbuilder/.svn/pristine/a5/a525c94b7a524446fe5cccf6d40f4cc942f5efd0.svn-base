@@ -1,0 +1,89 @@
+package gla.pgbuilder.test;
+
+public class Test {
+
+	/*
+	 * 
+	1.根据实体类生成各层的类，命名：实体类+包名后缀
+	2.各层注解：w:@Controller,@RequestMapping;s:接口不写注解，实现类@Service,d:mapper不写注解，dao需要些@Repository
+	3.完成各层依赖注入，使用自动装配@Autowird注解，w->s,s->m
+	
+	@Controller
+	@RequestMapping
+	
+	@Autowird
+	
+	@Service*/
+	 public static void main(String[] args) {
+		String wsd_pojo = "gla.myapp.pojo";
+		String wsd_url = 
+		 "wsd://gla.myapp.pgbuilder/w:controller;s:service.impl;d:mapper;";
+		
+		//设计思路
+		/*
+		 * 设：
+		 * gla.myapp.pgbuilder.pojo中有
+		 * User,Order类
+		 * 
+		 * 最终结果：
+		 * gla.myapp.pgbuilder.controller
+		 * 	且生成：UserController,OrderController
+		 * 	以其一为例：
+		 * 		package ${var}; 
+		 * 		import ${var}.Conrtoller;
+		 * 		import ${var}.Autowird;
+		 * 		import ${var};
+		 * 		@Conrtoller class UserController{ @Autowird private ${var} ${var};  }
+		 * 
+		 * gla.myapp.pgbuilder.service
+		 * 	且生成：UserService,OrderService
+		 * 以其一为例：
+		 * 	package ${var};
+		 *  
+		 *  class UserService{ //empty  }
+		 *  
+		 * gla.myapp.pgbuilder.service.impl
+		 * 	且生成：UserServiceImpl,OrderServiceImpl;
+		 * 以其一为例：
+		 * 	package ${var};
+		 *  import ${var};
+		 *  import ${var}.Service;
+		 *  import ${var}.Autowird;
+		 *  
+		 *  @Service class UserServiceImpl implements ${var}{ @Autowird private ${var} ${var}; }
+		 * 
+		 * gla.myapp.pgbuilder.mapper
+		 * 且不需要生成XxxMapper因为可用逆向工程生成。
+		 * 
+		 * 以上：	pojo,mapper部分使用逆向工程生成。
+		 * 		service,service.impl,controller可根据表达式生成对应的包和类，并完成依赖注入。
+		 * 
+		 * 
+		 * 解析wsd_url算法：
+		 * 	定义WSD1.0:
+		 * 	定义wsd_url格式：wsd://perfix/[w,s,d]:[包名（若用点隔开则可递归生成子包）];
+		 * 	其中：wsd1.0目前只允许出现w,s,d三种参数，且最多出现一次，且三个参数顺序无关。
+		 * 	对空格的要求：wsd://之间不允许包含空格，即wsd   ://或wsd:  //或wsd:/   /等写法均无效。
+		 * 
+		 * 	wsd_pojo = "gla.myapp.pojo";
+		 * 	wsd_pojo允许首尾含有空格，但不允许中间包含空格。
+		 * 
+		 * 
+		 * 
+		 * 	解析：
+		 * 		必须参数：wsd_pojo，wsd_url
+		 * 		例如：wsd_pojo = "gla.myapp.pojo";
+		 * 			wsd_url = "wsd://gla.myapp.pgbuilder/w:controller;s:service.impl;d:mapper;";
+		 * 		
+		 * 		最后解析的格式为：
+		 * 		
+		 * 		perfix:gla.myapp.pgbuilder	>>> /gla/myapp/pgbuilder
+		 * 		w(web):controller			>>>	/controller
+		 * 		s(service):service.impl		>>>	/service/impl
+		 * 		d(dao):mapper				>>>	/mapper
+		 * 
+		 * 		
+		 * 		我猜应该可以开三个线程w,s,d同时创建包和类。
+		 */
+	}
+}

@@ -1,0 +1,6 @@
+package gla.pgbuilder.test;
+
+class Wsd{
+	String perfix = null;
+	String web = null,service = null , dao = null;
+}

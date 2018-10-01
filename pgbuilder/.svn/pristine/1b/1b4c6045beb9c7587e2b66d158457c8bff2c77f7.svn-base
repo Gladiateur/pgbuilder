@@ -1,0 +1,53 @@
+package gla.pgbuilder.test;
+
+import org.junit.Test;
+
+public class Test7 {
+	
+	@Test
+	public void test(){
+		String wsd_url =
+			  "wsd://com.apple.var/w:controller;s:service.impl;d:mapper,dao.impl;";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+	
+	//bug:wsd_url = "wsd://xx/xx";时校验通过但无结果
+	@Test
+	public void test0(){
+		String wsd_url =
+			  "wsd://xx/xx;";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+	
+	@Test
+	public void test1(){
+		//3.1 正则判断wsd_body的/后面的格式是否是：x:aaa,bbb,...;y:cc.dd,ee,...;这种格式
+		//"w:aaa.bbb,c.d,ttttt;s:mmm,bbb;d:x.x;"
+		System.out.println(
+		  "w:action,controller;s:service,service.impl;d:mapper,dao,dao.impl;"
+		  .matches("([a-zA-Z][:]([a-zA-Z_][a-zA-Z0-9_]*[.|,])*([a-zA-Z_][a-zA-Z0-9_]*)[;])*$"));
+	} 
+	
+	//wsd://perfix/x:pg1.pg2.pg3,pg,...;末尾必须分号结尾
+	
+	//bug:wsd://perfix/x:x;校验通过，但运行无结果。
+	@Test
+	public void test2(){
+		String wsd_url =
+			  "wsd://com.gdsoft.isoft/x:x;";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+	//pg: 表示不清楚属于哪一层。mvc之外的包。
+	@Test
+	public void test3(){
+		//正则匹配参数
+		System.out.println("pg".matches("[w|s|d]|pg"));
+	}
+	@Test
+	public void test4(){
+		//test pg
+		String wsd_url =
+			  "wsd://com.gdsoft.isoft/pg:exception;";
+			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
+	}
+}

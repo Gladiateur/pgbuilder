@@ -20,8 +20,6 @@ public class Wsd{
 	private String dao = null;
 	private String pg = null;
 	
-	private Set<String> set = new HashSet<String>();
-	
 	String getPg() {
 		return pg;
 	}
@@ -64,35 +62,32 @@ public class Wsd{
 		}
 		this.dao = dao;
 	}
-	
-	private void addPackage(String pg){
-		set.add((perfix+"."+pg).replaceAll("\\.", "/"));
-	}
-	
+
 	//返回相对路径集合
 	Set<String> combiner(){
+		Set<String> set = new HashSet<String>();
 		if(web != null){
 			String[] webs = web.split(",");
-			for (String pg : webs) {
-				addPackage(pg);
+			for (String string : webs) {
+				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(service != null){
 			String[] services = service.split(",");
-			for (String pg : services) {
-				addPackage(pg);
+			for (String string : services) {
+				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(dao != null){
 			String[] daos = dao.split(",");
-			for (String pg : daos) {
-				addPackage(pg);
+			for (String string : daos) {
+				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(pg != null){
 			String[] pgs = pg.split(",");
-			for (String pg : pgs) {
-				addPackage(pg);
+			for (String string : pgs) {
+				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		return set;

@@ -127,12 +127,4 @@ public class Test7 {
 		}
 		return names;
 	}
-	//增强构建功能
-	@Test
-	public void test10(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url =
-		   "wsd://cn.itcast.gedeng/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
-		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

@@ -132,6 +132,8 @@ public class PgBuilder {
 		}
 		perfix = perfix.replaceAll("\\.", "/");
 		File file = new File("src/"+perfix);
+		System.out.println(file.exists());
+		System.out.println(file.isDirectory());
 		if(!file.exists()){
 			throw new NoSuchElementException("目标:"+perfix+"不存在");
 		}
@@ -158,6 +160,7 @@ public class PgBuilder {
 		Wsd wsd = pgBuilder.resolver(wsd_url);
 		String perfix = wsd.getPerfix();
 		for (String perfixAppend : names) {
+			System.out.println(perfix+"."+perfixAppend);
 			wsd.setPerfix(perfix+"."+perfixAppend);
 			pgBuilder.pgBuilder(wsd.combiner());
 		}

@@ -20,8 +20,6 @@ public class Wsd{
 	private String dao = null;
 	private String pg = null;
 	
-	private Set<String> set = new HashSet<String>();
-	
 	String getPg() {
 		return pg;
 	}
@@ -64,6 +62,8 @@ public class Wsd{
 		}
 		this.dao = dao;
 	}
+
+	Set<String> set = new HashSet<String>();
 	
 	private void addPackage(String pg){
 		set.add((perfix+"."+pg).replaceAll("\\.", "/"));
@@ -75,24 +75,28 @@ public class Wsd{
 			String[] webs = web.split(",");
 			for (String pg : webs) {
 				addPackage(pg);
+//				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(service != null){
 			String[] services = service.split(",");
 			for (String pg : services) {
 				addPackage(pg);
+//				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(dao != null){
 			String[] daos = dao.split(",");
 			for (String pg : daos) {
 				addPackage(pg);
+//				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		if(pg != null){
 			String[] pgs = pg.split(",");
 			for (String pg : pgs) {
 				addPackage(pg);
+//				set.add((perfix+"."+string).replaceAll("\\.", "/"));
 			}
 		}
 		return set;

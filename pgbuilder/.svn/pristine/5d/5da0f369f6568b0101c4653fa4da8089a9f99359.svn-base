@@ -127,7 +127,6 @@ public class Test7 {
 		}
 		return names;
 	}
-	//增强构建功能
 	@Test
 	public void test10(){
 		String wsd_pojo="gla.myapp.pojo";

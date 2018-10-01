@@ -1,6 +1,7 @@
 package gla.pgbuilder.test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -101,9 +102,12 @@ public class Test7 {
 		//通过包名获取该包下的所有java文件名，返回Set集合
 		String perfix = "gla.myapp.pojo";
 		String suffix = "java";
+		
 		Set<String> names = getNamesOfPackageAndFileSuffix(perfix, suffix);
+		
 		System.out.println("Set: "+names);
 	}
+
 	//通过包名获取该包下的所有java文件名，返回Set集合
 	private Set<String> getNamesOfPackageAndFileSuffix(String perfix,
 			String suffix) {
@@ -126,13 +130,5 @@ public class Test7 {
 			}
 		}
 		return names;
-	}
-	//增强构建功能
-	@Test
-	public void test10(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url =
-		   "wsd://cn.itcast.gedeng/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
-		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 }

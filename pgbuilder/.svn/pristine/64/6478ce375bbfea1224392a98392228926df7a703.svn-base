@@ -33,9 +33,11 @@ public class PgBuilder {
 		urlChecker(wsd_url);
 		logger.debug("wsd_url="+wsd_url);
 		logger.debug("params_body="+params_body);
+		//6.2 获取数组：
 		String[] paramsBodyArr = params_body.split(";");
 		for (String string : paramsBodyArr) {
 			String symbol = string.split(":")[0];
+			//正则匹配参数
 			if(!(symbol.matches("[w|s|d]|pg"))){
 				throw new WsdException("参数不合法。参数列表：w:web,s:service,d:dao,pg:any");
 			}
@@ -68,7 +70,6 @@ public class PgBuilder {
 		return wsd;
 	}
 
-	//wsd_url校验器
 	private void urlChecker(String wsd_url) {
 		if(wsd_url.length() < 6){
 			throw new WsdException("wsd_url头长度非法");
@@ -103,6 +104,8 @@ public class PgBuilder {
 			throw new WsdException("包名："+wsd_url_pg+"不合法");
 		}	
 		//校验通过，包名合法
+		//5.解析参数部分：
+//					wsd_body = wsd_body;
 		//6.1 去除参数体首尾空格 params_body=params_body.trim()
 		params_body = wsd_body.
 			substring(wsd_body.indexOf('/')+1).trim();

@@ -31,11 +31,14 @@ public class PgBuilder {
 	//解析wsd_url
 	private Wsd resolver(String wsd_url){
 		urlChecker(wsd_url);
-		logger.debug("wsd_url="+wsd_url);
-		logger.debug("params_body="+params_body);
+//		System.out.println("params_body="+params_body);
+		
+//		System.out.println("wsd_url="+wsd_url);
+		//6.2 获取数组：
 		String[] paramsBodyArr = params_body.split(";");
 		for (String string : paramsBodyArr) {
 			String symbol = string.split(":")[0];
+			//正则匹配参数
 			if(!(symbol.matches("[w|s|d]|pg"))){
 				throw new WsdException("参数不合法。参数列表：w:web,s:service,d:dao,pg:any");
 			}
@@ -68,7 +71,6 @@ public class PgBuilder {
 		return wsd;
 	}
 
-	//wsd_url校验器
 	private void urlChecker(String wsd_url) {
 		if(wsd_url.length() < 6){
 			throw new WsdException("wsd_url头长度非法");
@@ -78,7 +80,7 @@ public class PgBuilder {
 		//2.忽略大小写验证头部分：
 		String head = wsd_url.substring(0, 6);
 		boolean headFlag = head.equalsIgnoreCase("wsd://");
-		logger.debug("wsd头信息："+headFlag);
+//		System.out.println("wsd头信息："+headFlag);
 		if(!headFlag){
 			//头信息错误
 			throw new WsdException("wsd_url头部必须为：wsd://");
@@ -87,22 +89,24 @@ public class PgBuilder {
 		//3.证明在前缀后使用"/"符号后不再使用该符号：
 		wsd_body = wsd_url.substring(6);
 		boolean formatFlag = wsd_body.split("/").length == 2;
-		logger.debug("wsd_body校验,formatFlag="+formatFlag);
+//			System.out.println("wsd头后有且仅有一个/符号："+formatFlag);
 		if(!formatFlag){
 			throw new WsdException("wsd_body格式错误：wsd://perfix/x:xxx,...;");
 		}
 		//4.解析前缀包名：
 		wsd_url_pg = wsd_body;
 		wsd_url_pg = wsd_url_pg.substring(0,wsd_body.indexOf('/'));
-		logger.debug("wsd_url_pg="+wsd_url_pg);
+//				System.out.println("wsd_url_pg="+wsd_url_pg);
 		//这里必须验证包名的合法性,用正则校验
 		boolean rgFlag = wsd_url_pg.trim().
 			matches("([a-zA-Z_][a-zA-Z0-9_]*[.])*([a-zA-Z_][a-zA-Z0-9_]*)$");
-		logger.debug("正则校验包名结果："+rgFlag);
+//				System.out.println("正则校验包名结果："+rgFlag);
 		if(!rgFlag){
 			throw new WsdException("包名："+wsd_url_pg+"不合法");
 		}	
 		//校验通过，包名合法
+		//5.解析参数部分：
+//					wsd_body = wsd_body;
 		//6.1 去除参数体首尾空格 params_body=params_body.trim()
 		params_body = wsd_body.
 			substring(wsd_body.indexOf('/')+1).trim();

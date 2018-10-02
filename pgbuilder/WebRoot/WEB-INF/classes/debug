@@ -1,0 +1,3 @@
+bug0.97-1	wsd_pojo:com.app.pojo.. 可以通过校验，但无运行结果
+bug0.91-2	通过日志发现private void pgBuilder(Set<String> set)有大量
+			重复循环。

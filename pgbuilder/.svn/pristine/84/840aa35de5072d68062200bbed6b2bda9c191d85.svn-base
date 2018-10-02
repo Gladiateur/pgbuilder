@@ -179,7 +179,7 @@ public class Test7 {
 	public void test14(){
 		String wsd_pojo="gla.myapp.pojo";
 		String wsd_url =
-		   "wsd://cn.duang/w:controller;s:service.impl,ebi,ebo;d:mapper;";
+		   "wsd://cn.itcast.gedeng/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
 		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 }

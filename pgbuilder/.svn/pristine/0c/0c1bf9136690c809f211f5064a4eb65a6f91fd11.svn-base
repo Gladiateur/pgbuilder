@@ -175,11 +175,4 @@ public class Test7 {
 			  "wsd://cn.itcast.water/w:action,web.controller;s:service.impl;d:mapper,dao.impl;";
 			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
-	@Test
-	public void test14(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url =
-		   "wsd://cn.duang/w:controller;s:service.impl,ebi,ebo;d:mapper;";
-		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

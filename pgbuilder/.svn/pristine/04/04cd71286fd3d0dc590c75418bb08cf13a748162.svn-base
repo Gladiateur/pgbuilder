@@ -116,12 +116,25 @@ public class PgBuilder {
 	}
 	
 	private void pgBuilder(Set<String> set){
+		if(wsd_pojo != null){
+			//若pojo不为null,则生成对应的类或接口
+			System.out.println("pojo="+wsd_pojo+",根据它生成的文件名列表：类或接口");
+			Set<String> pojoNames =
+				getNamesOfPackageAndFileSuffix(wsd_pojo, "java");
+			for (String pojoName : pojoNames) {
+				System.out.println("pojo="+pojoName);
+			}
+		}else{
+			//若pojo为null,则不生成
+			System.out.println("pojo="+wsd_pojo+",不生成文件");
+		}
+		
 		for (String path : set) {
 			File f = new File("src/"+path);
 			if(!f.exists()){
 				f.mkdirs();
 			}
-//			System.out.println("pg: "+path);
+			System.out.println("pg: "+path);
 		}
 	}
 	

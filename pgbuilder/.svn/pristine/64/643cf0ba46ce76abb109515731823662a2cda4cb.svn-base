@@ -121,8 +121,81 @@ public class PgBuilder {
 			if(!f.exists()){
 				f.mkdirs();
 			}
-//			System.out.println("pg: "+path);
+			System.out.println("pg: "+path);
 		}
+		////////////////////////////
+		/*
+		 * 需求：
+		 * web层：一律生成类，且当存在点时，一律在末尾子包下生成。
+		 * 		例如:w:web.action,controller;
+		 * 		生成为:web.action.XXXAction,XXXController
+		 * 
+		 * service层：定位末尾子包，生成类，前一个子包生成接口
+		 * 		例如：s:service.impl,ebi.ebo;
+		 * 		生成为：service.XXXService(接口)
+		 * 			 service.impl.XXXServiceImpl(类)
+		 * 			 ebi.XXXEbi(接口)，ebo.XXXEbiEbo(类)
+		 * 
+		 * dao层：不需要生成。
+		 * 
+		 */
+		if(wsd_pojo != null){
+			//若pojo不为null,则生成对应的类或接口
+			System.out.println("pojo="+wsd_pojo+",根据它生成的文件名列表：类或接口");
+			Set<String> pojoNames =
+				getNamesOfPackageAndFileSuffix(wsd_pojo, "java");
+			for (String pojoName : pojoNames) {
+				System.out.println("pojo="+pojoName);
+			}
+			
+			String[] webs = wsd.getWeb().split(",");
+			for (String web : webs) {
+				if(web.contains(".")){
+					String[] webSuffixes = web.split("\\.");
+					for (String string : webSuffixes) {
+						System.out.println(string);
+					}
+					//call
+				}else{
+					String webSuffix = web;
+					System.out.println(webSuffix);
+				}
+			}
+			
+			String[] services = wsd.getService().split(",");
+			for (String service : services) {
+				if(service.contains(".")){
+					String[] serviceSuffixes = service.split("\\.");
+					for (String string : serviceSuffixes) {
+						System.out.println(string);
+					}
+					//call
+				}else{
+					String serviceSuffix = service;
+					System.out.println(serviceSuffix);
+				}
+			}
+			
+			String[] daos = wsd.getDao().split(",");
+			for (String dao : daos) {
+				if(dao.contains(".")){
+					String[] daoSuffixes = dao.split("\\.");
+					for (String string : daoSuffixes) {
+						System.out.println(string);
+					}
+					//call
+				}else{
+					String daoSuffix = dao;
+					System.out.println(daoSuffix);
+				}
+			}
+			
+		}else{
+			//若pojo为null,则不生成
+			System.out.println("pojo="+wsd_pojo+",不生成文件");
+		}
+		
+		
 	}
 	
 	private static String wsd_pojo = null;

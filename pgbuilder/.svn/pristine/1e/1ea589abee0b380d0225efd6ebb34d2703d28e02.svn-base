@@ -121,7 +121,7 @@ public class PgBuilder {
 			if(!f.exists()){
 				f.mkdirs();
 			}
-//			System.out.println("pg: "+path);
+			System.out.println("pg: "+path);
 		}
 	}
 	

@@ -165,17 +165,4 @@ public class Test7 {
 		}catch(Exception e){
 		}*/
 	}
-	@Test
-	public void test12(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("safd..asfd");
-		String wsdPojo = gla.pgbuilder.builder.PgBuilder.getWsdPojo();
-		System.out.println(wsdPojo);
-	}
-	@Test
-	public void test13(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.imooc.erp.vo");
-		String wsd_url =
-			  "wsd://cn.itcast.water/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
-			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
 }

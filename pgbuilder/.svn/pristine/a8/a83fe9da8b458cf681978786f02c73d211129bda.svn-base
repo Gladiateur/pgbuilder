@@ -121,32 +121,7 @@ public class PgBuilder {
 			if(!f.exists()){
 				f.mkdirs();
 			}
-			if(wsd_pojo != null){
-				//若pojo不为null,则生成对应的类或接口
-				System.out.println("pojo="+wsd_pojo+",根据它生成的文件名列表：类或接口");
-			}else{
-				//若pojo为null,则不生成
-				System.out.println("pojo="+wsd_pojo+",不生成文件");
-			}
-			System.out.println("pg: "+path);
 		}
-	}
-	
-	private static String wsd_pojo = null;
-	
-	public static void setWsdPojo(String pojo){
-		if(pojo == null){
-			throw new NullPointerException();
-		}
-		boolean pojoFlag = pojo
-		 .matches("([a-zA-Z_][a-zA-Z0-9_]*[.])*([a-zA-Z_][a-zA-Z0-9_]*)$");
-		if(!pojoFlag){
-			throw new WsdException("包名不合法");
-		}
-		wsd_pojo = pojo;
-	}
-	public static String getWsdPojo(){
-		return wsd_pojo;
 	}
 	
 	//通过包名获取该包下的所有java文件名，返回Set集合
@@ -182,9 +157,14 @@ public class PgBuilder {
 			getNamesOfPackageAndFileSuffix(wsd_pojo,"java");
 		Wsd wsd = pgBuilder.resolver(wsd_url);
 		String perfix = wsd.getPerfix();
+		String pg = wsd.getPg();
+		String pg0 = pg;
 		for (String perfixAppend : names) {
 			wsd.setPerfix(perfix+"."+perfixAppend);
+			wsd.setPg(null);
 			pgBuilder.pgBuilder(wsd.combiner());
 		}
+		wsd.setPg(pg0);
+		pgBuilder.pgBuilder(wsd.combiner());
 	}
 }

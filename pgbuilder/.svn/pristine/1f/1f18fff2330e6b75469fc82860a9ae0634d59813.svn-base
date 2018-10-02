@@ -1,8 +1,6 @@
 package gla.pgbuilder.test;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -137,45 +135,5 @@ public class Test7 {
 		String wsd_url =
 		   "wsd://cn.itcast.gedeng/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
 		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
-	
-	/*String path0 = conditionBean.getPath();
-	File file = new File(path0);
-	if(!file.exists()){
-		file.mkdirs();
-	}
-	try {
-		bos = new BufferedOutputStream(new FileOutputStream(
-				new File(path0+"/"+Core.captureName(tableName)+".java")));
-		bos.write(this.entityContent(tableName).toString().getBytes());
-		bos.close();*/
-	@Test
-	public void test11(){
-		//生成对应的类或接口
-		/*String path0 = "/src/com/imooc/user/controller";
-		File file = new File(path0);
-		if(!file.exists()){
-			file.mkdirs();
-		}
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(
-					new File(path0+"/"+Core.captureName(tableName)+".java")));
-			bos.write(this.entityContent(tableName).toString().getBytes());
-			bos.close();
-		}catch(Exception e){
-		}*/
-	}
-	@Test
-	public void test12(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("safd..asfd");
-		String wsdPojo = gla.pgbuilder.builder.PgBuilder.getWsdPojo();
-		System.out.println(wsdPojo);
-	}
-	@Test
-	public void test13(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.imooc.erp.vo");
-		String wsd_url =
-			  "wsd://cn.itcast.water/w:action;s:service.impl;d:mapper;pg:utils.interceptor,utils.filter,realm,exception;";
-			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
 }

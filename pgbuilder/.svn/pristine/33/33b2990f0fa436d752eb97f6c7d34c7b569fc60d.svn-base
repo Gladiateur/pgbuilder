@@ -121,20 +121,13 @@ public class PgBuilder {
 			if(!f.exists()){
 				f.mkdirs();
 			}
-			if(wsd_pojo != null){
-				//若pojo不为null,则生成对应的类或接口
-				System.out.println("pojo="+wsd_pojo+",根据它生成的文件名列表：类或接口");
-			}else{
-				//若pojo为null,则不生成
-				System.out.println("pojo="+wsd_pojo+",不生成文件");
-			}
 			System.out.println("pg: "+path);
 		}
 	}
 	
-	private static String wsd_pojo = null;
+	private String wsd_pojo = null;
 	
-	public static void setWsdPojo(String pojo){
+	public void setWsdPojo(String pojo){
 		if(pojo == null){
 			throw new NullPointerException();
 		}
@@ -143,9 +136,9 @@ public class PgBuilder {
 		if(!pojoFlag){
 			throw new WsdException("包名不合法");
 		}
-		wsd_pojo = pojo;
+		this.wsd_pojo = pojo;
 	}
-	public static String getWsdPojo(){
+	public String getWsdPojo(){
 		return wsd_pojo;
 	}
 	

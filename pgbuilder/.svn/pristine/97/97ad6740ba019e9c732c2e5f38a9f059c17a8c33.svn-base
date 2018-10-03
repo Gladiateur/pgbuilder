@@ -5,11 +5,7 @@ package gla.pgbuilder.builder;
 
 import gla.pgbuilder.exception.WsdException;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -131,88 +127,20 @@ public class PgBuilder {
 		
 		logger.debug("pojo list:"+names);
 		logger.debug(set);
-		logger.debug("perfix = "+wsd.getPerfix());
-		logger.debug("wsd_pojo="+wsd_pojo);
 		if(names.size() == 0){
-			if(wsd_pojo!=null){
-				//当wsd_pojo不为空时，根据它来生成类
-				names = getNamesOfPackageAndFileSuffix(wsd_pojo, "java");
-				logger.debug("java_files:"+names);
-				
-				//每层都包含全部的实体类相关的类
-				String webs = wsd.getWeb();
-				if(webs != null){
-					String[] web = webs.split(",");
-					for (String w : web) {
-						logger.debug("w="+w);
-						String package0 = wsd.getPerfix()+"."+w;
-						logger.debug("web_package:"+package0);
-						String path0 = package0.replaceAll("\\.", "/");
-						logger.debug("path0="+path0);
-						
-						for (String file : names) {
-							String suffix = path0.substring(path0.lastIndexOf('/')+1);
-							String fileName = path0+"/"+captureName(file)+captureName(suffix)+".java";
-							logger.debug("fileName="+fileName);
-//							File f = new File("src/"+fileName);
-							BufferedOutputStream bos = null;
-							try {
-								bos = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+fileName)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								bos.write(("package "+package0+";\n").getBytes());
-								bos.close();
-							} catch (IOException e) {
-							}
-						}
-					}
-				}
+			//每层都包含全部的实体类相关的类
+			String webs = wsd.getWeb();
+			String[] web = webs.split(",");
+			for (String w : web) {
+				logger.debug("w="+w);
 			}
+			
+			
 		}else{
 			//已实体类为模块生成对应各层的类
 			
 			
 		}
-	}
-	//////////////////////////////////////////
-	/*String path0 = "/src/com/imooc/user/controller";
-	File file = new File(path0);
-	if(!file.exists()){
-		file.mkdirs();
-	}
-	try {
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(
-				new File(path0+"/"+Core.captureName(tableName)+".java")));
-		bos.write(this.entityContent(tableName).toString().getBytes());
-		bos.close();
-	}catch(Exception e){
-	}*/
-	
-	
-	
-	
-	
-	
-	//////////////////////////////////////////////
-	/**
-	 * 首字母大写
-	 * 
-	 * */
-	public final static String captureName(String name) {
-		if (isLowwer(name) == true) {
-			char[] cs = name.toCharArray();
-			cs[0] -= 32;
-			return String.valueOf(cs);
-		} else {
-			return name;
-		}
-
-	}
-	public final static boolean isLowwer(String table) {
-		byte[] b = table.getBytes();
-		return (b[0] >= 97 && b[0] <= 122) == true ? true : false;
 	}
 	
 	private static String wsd_pojo = null;

@@ -205,12 +205,5 @@ public class Test7 {
 		 *  
 		 */
 	}
-	@Test
-	public void test17(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		String wsd_url =
-			  "wsd://cn.itcast.builder/w:action,web.controller;";
-			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
 	
 }

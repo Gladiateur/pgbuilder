@@ -5,12 +5,9 @@ package gla.pgbuilder.builder;
 
 import gla.pgbuilder.exception.WsdException;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -128,91 +125,6 @@ public class PgBuilder {
 			}
 			logger.info("package: "+path);
 		}
-		
-		logger.debug("pojo list:"+names);
-		logger.debug(set);
-		logger.debug("perfix = "+wsd.getPerfix());
-		logger.debug("wsd_pojo="+wsd_pojo);
-		if(names.size() == 0){
-			if(wsd_pojo!=null){
-				//当wsd_pojo不为空时，根据它来生成类
-				names = getNamesOfPackageAndFileSuffix(wsd_pojo, "java");
-				logger.debug("java_files:"+names);
-				
-				//每层都包含全部的实体类相关的类
-				String webs = wsd.getWeb();
-				if(webs != null){
-					String[] web = webs.split(",");
-					for (String w : web) {
-						logger.debug("w="+w);
-						String package0 = wsd.getPerfix()+"."+w;
-						logger.debug("web_package:"+package0);
-						String path0 = package0.replaceAll("\\.", "/");
-						logger.debug("path0="+path0);
-						
-						for (String file : names) {
-							String suffix = path0.substring(path0.lastIndexOf('/')+1);
-							String fileName = path0+"/"+captureName(file)+captureName(suffix)+".java";
-							logger.debug("fileName="+fileName);
-//							File f = new File("src/"+fileName);
-							BufferedOutputStream bos = null;
-							try {
-								bos = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+fileName)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								bos.write(("package "+package0+";\n").getBytes());
-								bos.close();
-							} catch (IOException e) {
-							}
-						}
-					}
-				}
-			}
-		}else{
-			//已实体类为模块生成对应各层的类
-			
-			
-		}
-	}
-	//////////////////////////////////////////
-	/*String path0 = "/src/com/imooc/user/controller";
-	File file = new File(path0);
-	if(!file.exists()){
-		file.mkdirs();
-	}
-	try {
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(
-				new File(path0+"/"+Core.captureName(tableName)+".java")));
-		bos.write(this.entityContent(tableName).toString().getBytes());
-		bos.close();
-	}catch(Exception e){
-	}*/
-	
-	
-	
-	
-	
-	
-	//////////////////////////////////////////////
-	/**
-	 * 首字母大写
-	 * 
-	 * */
-	public final static String captureName(String name) {
-		if (isLowwer(name) == true) {
-			char[] cs = name.toCharArray();
-			cs[0] -= 32;
-			return String.valueOf(cs);
-		} else {
-			return name;
-		}
-
-	}
-	public final static boolean isLowwer(String table) {
-		byte[] b = table.getBytes();
-		return (b[0] >= 97 && b[0] <= 122) == true ? true : false;
 	}
 	
 	private static String wsd_pojo = null;
@@ -232,7 +144,7 @@ public class PgBuilder {
 		return wsd_pojo;
 	}
 	
-	private List<String> names = new ArrayList<String>();
+	List<String> names = new ArrayList<String>();
 	//通过包名获取该包下的所有java文件名，返回Set集合
 	private List<String> getNamesOfPackageAndFileSuffix(String perfix,
 			String suffix) {
@@ -245,6 +157,8 @@ public class PgBuilder {
 			throw new NoSuchElementException("目标:"+perfix+"不存在");
 		}
 		String[] list = file.list();
+//		Set<String> names = new HashSet<String>();
+//		List<String> names = new ArrayList<String>();
 		for (String string : list) {
 			int index = string.lastIndexOf('.');
 			if(suffix.equalsIgnoreCase(string.substring(index+1))){
@@ -259,6 +173,8 @@ public class PgBuilder {
 		PgBuilder pgBuilder = new PgBuilder();
 		Wsd wsd = pgBuilder.resolver(wsd_url);
 		pgBuilder.pgBuilder(wsd.combiner());
+		
+		pgBuilder.defaultMVCTemplate();
 	}
 	public static void pgBuild(String wsd_pojo,String wsd_url){
 		PgBuilder pgBuilder = new PgBuilder();
@@ -270,5 +186,44 @@ public class PgBuilder {
 			wsd.setPerfix(perfix+"."+perfixAppend);
 			pgBuilder.pgBuilder(wsd.combiner());
 		}
+		
+		pgBuilder.defaultMVCTemplate();
+	}
+	private void defaultMVCTemplate(){
+		logger.debug("wsd="+wsd);
+		//Wsd [perfix=cn.gd.app.order, 
+		//web=controller, service=service.impl, dao=mapper]
+		/*
+		 * wsd默认生成策略：DefaultMVCTemplate
+		 * 	w:	1.只在最后一个子包下生成类
+		 * 		2.生成后缀默认为包名
+		 *  s:	1.若存在子包则在及最后一个子包下生成类，在上一个子包下生成接口
+		 *  	2.若不存在则在最后一个包下生成接口和类
+		 *  d:	与s相同
+		 *  
+		 *  
+		 */
+		/*
+		String path0 = "/src/com/imooc/user/controller";
+		File file = new File(path0);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		try {
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(
+					new File(path0+"/"+Core.captureName(tableName)+".java")));
+			bos.write(this.entityContent(tableName).toString().getBytes());
+			bos.close();
+		}catch(Exception e){
+		}*/
+		String[] weds = wsd.getWeb().split(",");
+		logger.debug(names);
+		for (String web : weds) {
+			logger.debug(web);
+			//18:24:43,392 DEBUG PgBuilder:201 - web.action
+			//18:24:43,392 DEBUG PgBuilder:201 - web.controller
+		}
+		
+	
 	}
 }

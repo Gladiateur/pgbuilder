@@ -172,14 +172,14 @@ public class Test7 {
 	@Test
 	public void test13(){
 		String wsd_url =
-			  "wsd://cn.itcast.water/w:action,web.controller;";
+			  "wsd://cn.itcast.water/w:action,web.controller;s:service.impl;d:mapper,dao.impl;";
 			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
 	@Test
 	public void test14(){
 		String wsd_pojo="gla.myapp.pojo";
 		String wsd_url =
-		   "wsd://cn.gd.app/w:web.action,web.controller;";
+		   "wsd://cn.gd.app/w:controller;s:service.impl;d:mapper;";
 		 gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 	
@@ -191,26 +191,4 @@ public class Test7 {
 		 * 
 		 */
 	}
-	
-	@Test
-	public void test16(){
-		/*
-		 * wsd默认生成策略：DefaultMVCTemplate
-		 * 	w:	1.只在最后一个子包下生成类
-		 * 		2.生成后缀默认为包名
-		 *  s:	1.若存在子包则在及最后一个子包下生成类，在上一个子包下生成接口
-		 *  	2.若不存在则在最后一个包下生成接口和类
-		 *  d:	与s相同
-		 *  
-		 *  
-		 */
-	}
-	@Test
-	public void test17(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		String wsd_url =
-			  "wsd://cn.itcast.builder/w:action,web.controller;";
-			gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
-	
 }

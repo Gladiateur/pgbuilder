@@ -5,11 +5,7 @@ package gla.pgbuilder.builder;
 
 import gla.pgbuilder.exception.WsdException;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -150,22 +146,11 @@ public class PgBuilder {
 						String path0 = package0.replaceAll("\\.", "/");
 						logger.debug("path0="+path0);
 						
+						
 						for (String file : names) {
 							String suffix = path0.substring(path0.lastIndexOf('/')+1);
 							String fileName = path0+"/"+captureName(file)+captureName(suffix)+".java";
 							logger.debug("fileName="+fileName);
-//							File f = new File("src/"+fileName);
-							BufferedOutputStream bos = null;
-							try {
-								bos = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+fileName)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								bos.write(("package "+package0+";\n").getBytes());
-								bos.close();
-							} catch (IOException e) {
-							}
 						}
 					}
 				}

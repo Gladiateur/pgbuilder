@@ -229,7 +229,8 @@ public class PgBuilder {
 								logger.debug(">>>>>"+sPath+"/"+filePerfix+file+fileSuffix+".java");
 								
 								BufferedOutputStream bos = null;
-								String interfaceName = filePerfix + captureName(file);
+								String interfaceName = filePerfix +
+										captureName(file)+captureName(fileSuffix);
 								String implName = captureName(file) + captureName(fileSuffix);
 								String interfacePath = sPath+"/"+interfaceName+".java";
 								try {

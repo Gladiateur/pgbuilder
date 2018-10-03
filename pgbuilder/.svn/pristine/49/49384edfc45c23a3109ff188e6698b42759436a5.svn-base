@@ -222,19 +222,17 @@ public class PgBuilder {
 							logger.debug("not contains dot :"+s);
 							String sPath = (perfix+"."+s).replaceAll("\\.", "/");
 							
-							String filePerfix = "I";	//default
-							
+							String filePerfix = "I";
 							String fileSuffix = s;
 							for (String file : names) {
 								logger.debug(">>>>>"+sPath+"/"+filePerfix+file+fileSuffix+".java");
 								
-								BufferedOutputStream bos = null;
-								String interfaceName = filePerfix + captureName(file);
-								String implName = captureName(file) + captureName(fileSuffix);
-								String interfacePath = sPath+"/"+interfaceName+".java";
+								BufferedOutputStream bos2 = null;
+								String interfaceName = filePerfix +
+										captureName(file)+captureName(fileSuffix);
 								try {
-									bos = new BufferedOutputStream(new FileOutputStream(
-											new File("src/"+interfacePath)));
+									bos2 = new BufferedOutputStream(new FileOutputStream(
+											new File("src/"+interfaceName)));
 								} catch (FileNotFoundException e) {
 								}
 								try {
@@ -243,30 +241,15 @@ public class PgBuilder {
 									sb.append("public interface "+interfaceName+"{\n\n");
 									sb.append("\t//TODO \n\n");
 									sb.append("}\n");
-									bos.write(sb.toString().getBytes());
-									bos.close();
-								} catch (IOException e) {
-								}
-								
-								BufferedOutputStream bos2 = null;
-								String implPath =  sPath+"/"+implName+".java";
-								try {
-									bos2 = new BufferedOutputStream(new FileOutputStream(
-											new File("src/"+implPath)));
-								} catch (FileNotFoundException e) {
-								}
-								try {
-									StringBuilder sb = new StringBuilder();
-									sb.append("package "+perfix +"." +s+";\n\n");
-									sb.append("public class "+implName);
-									sb.append(" implements "+interfaceName+" {\n\n");
-									sb.append("\t//TODO \n\n");
-									sb.append("}\n");
 									
 									bos2.write(sb.toString().getBytes());
 									bos2.close();
 								} catch (IOException e) {
 								}
+								
+								
+								
+								
 							}
 						}
 					}

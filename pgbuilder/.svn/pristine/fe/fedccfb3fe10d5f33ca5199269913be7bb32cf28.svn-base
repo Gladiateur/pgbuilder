@@ -180,115 +180,12 @@ public class PgBuilder {
 							//包括点的情况
 							logger.debug("s:contains dots ="+s);
 							
-							String suffix = s.substring(0,s.lastIndexOf('.'));
-							String package0 = perfix+"."+suffix;
-							moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-							String interfaceName = captureName(moduleName)+captureName(suffix);
-							String fileName = package0.replaceAll("\\.", "/") + "/" 
-									+ interfaceName + ".java";
-							logger.debug("s:fileName="+fileName);
-							
-							String impl = s.substring(s.lastIndexOf(".")+1);
-							logger.debug("s:impl="+impl);
-							
-							String implSuffix = captureName(suffix) + captureName(impl);
-							logger.debug("implSuffix="+implSuffix);
-							logger.debug("s >>> "+s);
-							String implPath = (perfix +"." +s).replaceAll("\\.", "/");
-							logger.debug("implPath="+implPath);
-							String implFileName = implPath + "/" 
-									+ captureName(moduleName) + implSuffix + ".java";
-							
-							BufferedOutputStream bos2 = null;
-							
-							try {
-								bos2 = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+fileName)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								StringBuilder sb = new StringBuilder();
-								sb.append("package "+package0+";\n\n");
-								sb.append("public interface "+interfaceName+"{\n\n");
-								sb.append("\t//TODO \n\n");
-								sb.append("}\n");
-								
-								bos2.write(sb.toString().getBytes());
-								bos2.close();
-							} catch (IOException e) {
-							}
-							
-							BufferedOutputStream bos = null;
-							try {
-								bos = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+implFileName)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								StringBuilder sb = new StringBuilder();
-								sb.append("package "+perfix +"." +s+";\n\n");
-								sb.append("import "+package0+"."+interfaceName+";\n");
-								sb.append("\npublic class "+captureName(moduleName)+implSuffix);
-								sb.append(" implements "+captureName(moduleName)+captureName(suffix)+" {\n\n");
-								sb.append("\t//TODO \n\n");
-								sb.append("}\n");
-								
-								bos.write(sb.toString().getBytes());
-								bos.close();
-							} catch (IOException e) {
-							}
-							
-							
-							
 						}else{
 							//不包括点的情况
 							logger.debug("s:not contains dots ="+s);
 							
-							String filePerfix = "I";
-							String fileSuffix = s;
-							String sPath = (perfix+"."+s).replaceAll("\\.", "/");
-							
-							BufferedOutputStream bos = null;
-							String interfaceName = filePerfix + captureName(moduleName);
-							String implName = captureName(moduleName) + captureName(fileSuffix);
-							String interfacePath = sPath+"/"+interfaceName+".java";
-							try {
-								bos = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+interfacePath)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								StringBuilder sb = new StringBuilder();
-								sb.append("package "+perfix+"."+s+";\n\n");
-								sb.append("public interface "+interfaceName+"{\n\n");
-								sb.append("\t//TODO \n\n");
-								sb.append("}\n");
-								bos.write(sb.toString().getBytes());
-								bos.close();
-							} catch (IOException e) {
-							}
-							
-							BufferedOutputStream bos2 = null;
-							String implPath =  sPath+"/"+implName+".java";
-							try {
-								bos2 = new BufferedOutputStream(new FileOutputStream(
-										new File("src/"+implPath)));
-							} catch (FileNotFoundException e) {
-							}
-							try {
-								StringBuilder sb = new StringBuilder();
-								sb.append("package "+perfix +"." +s+";\n\n");
-								sb.append("public class "+implName);
-								sb.append(" implements "+interfaceName+" {\n\n");
-								sb.append("\t//TODO \n\n");
-								sb.append("}\n");
-								
-								bos2.write(sb.toString().getBytes());
-								bos2.close();
-							} catch (IOException e) {
-							}
-						
 						}
+						
 					}
 					
 				}

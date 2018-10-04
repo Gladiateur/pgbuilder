@@ -176,10 +176,7 @@ public class PgBuilder {
 						logger.debug("webSuffix="+webSuffix);
 						
 						String package0 = perfix+"."+w;
-						logger.debug(">>>>>>>>>>>>>perfix="+perfix);
-						moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
 						String webModulePath =package0 .replaceAll("\\.", "/");
-						
 						String fileName = captureName(moduleName) + webSuffix;
 						String fp = "/" + fileName + ".java";
 						String webPath = webModulePath + fp;
@@ -202,7 +199,7 @@ public class PgBuilder {
 							bos.close();
 						} catch (IOException e) {
 						}
-					
+						
 					}
 					
 				}

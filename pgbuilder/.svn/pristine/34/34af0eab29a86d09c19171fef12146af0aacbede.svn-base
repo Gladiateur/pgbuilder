@@ -175,34 +175,13 @@ public class PgBuilder {
 						webSuffix = captureName(webSuffix);
 						logger.debug("webSuffix="+webSuffix);
 						
-						String package0 = perfix+"."+w;
-						logger.debug(">>>>>>>>>>>>>perfix="+perfix);
-						moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-						String webModulePath =package0 .replaceAll("\\.", "/");
-						
-						String fileName = captureName(moduleName) + webSuffix;
-						String fp = "/" + fileName + ".java";
+						String webModulePath = (perfix+"."+w).replaceAll("\\.", "/");
+						String fp = "/" + captureName(moduleName) + webSuffix + ".java";
 						String webPath = webModulePath + fp;
 						logger.debug("webPath="+webPath);
 						
-						BufferedOutputStream bos = null;
-						try {
-							bos = new BufferedOutputStream(new FileOutputStream(
-									new File("src/"+webPath)));
-						} catch (FileNotFoundException e) {
-						}
-						try {
-							StringBuilder sb = new StringBuilder();
-							sb.append("package "+package0+";\n\n");
-							sb.append("public class "+fileName+"{\n\n");
-							sb.append("\t//TODO \n\n");
-							sb.append("}\n");
-							
-							bos.write(sb.toString().getBytes());
-							bos.close();
-						} catch (IOException e) {
-						}
-					
+						
+						
 					}
 					
 				}

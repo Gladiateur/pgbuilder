@@ -246,14 +246,4 @@ public class Test7 {
 		  "wsd://com.isoft.common/w:web.action;s:ebi.ebo;d:dao.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
-	//pgb-0.99.jar 第二种url test pass ok
-	@Test
-	public void test22(){
-		//pgb-0.99.jar
-		//测试第二种url
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.isoft.common/w:controller;s:service.impl;d:mapper,dao.impl;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

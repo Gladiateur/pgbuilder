@@ -203,17 +203,7 @@ public class PgBuilder {
 	private void daoNotContainsDot2(String perfix,String d) {
 		String sPath = (perfix+"."+d).replaceAll("\\.", "/");
 		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-		
-		String interfaceName = captureName(moduleName)+captureName(d);
-		String interfacePath = sPath+"/"+interfaceName+".java";
-		StringBuilder sb = new StringBuilder();
-		sb.append("package "+perfix+"."+d+";\n\n");
-		sb.append("public interface "+interfaceName+"{\n\n");
-		sb.append("\t//TODO \n\n");
-		sb.append("}\n");
-		output(interfacePath, sb);
-		
-		/*BufferedOutputStream bos = null;
+		BufferedOutputStream bos = null;
 		String interfaceName = captureName(moduleName)+captureName(d);
 		String interfacePath = sPath+"/"+interfaceName+".java";
 		try {
@@ -230,7 +220,7 @@ public class PgBuilder {
 			bos.write(sb.toString().getBytes());
 			bos.close();
 		} catch (IOException e) {
-		}*/
+		}
 	}
 
 	private void daoContainsDot2(String perfix,String d) {
@@ -253,14 +243,7 @@ public class PgBuilder {
 		String implFileName = implPath + "/" 
 				+ captureName(moduleName) + implSuffix + ".java";
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("package "+package0+";\n\n");
-		sb.append("public interface "+interfaceName+"{\n\n");
-		sb.append("\t//TODO \n\n");
-		sb.append("}\n");
-		output(fileName, sb);
-		
-		/*BufferedOutputStream bos2 = null;
+		BufferedOutputStream bos2 = null;
 		
 		try {
 			bos2 = new BufferedOutputStream(new FileOutputStream(
@@ -277,18 +260,9 @@ public class PgBuilder {
 			bos2.write(sb.toString().getBytes());
 			bos2.close();
 		} catch (IOException e) {
-		}*/
+		}
 		
-		StringBuilder sb2 = new StringBuilder();
-		sb2.append("package "+perfix +"." +d+";\n\n");
-		sb2.append("import "+package0+"."+interfaceName+";\n");
-		sb2.append("\npublic class "+captureName(moduleName)+implSuffix);
-		sb2.append(" implements "+captureName(moduleName)+captureName(suffix)+" {\n\n");
-		sb2.append("\t//TODO \n\n");
-		sb2.append("}\n");
-		output(implFileName, sb2);
-		
-		/*BufferedOutputStream bos = null;
+		BufferedOutputStream bos = null;
 		try {
 			bos = new BufferedOutputStream(new FileOutputStream(
 					new File("src/"+implFileName)));
@@ -306,7 +280,7 @@ public class PgBuilder {
 			bos.write(sb.toString().getBytes());
 			bos.close();
 		} catch (IOException e) {
-		}*/
+		}
 	}
 
 //	private void serviceBox(String perfix, String moduleName, String services) {

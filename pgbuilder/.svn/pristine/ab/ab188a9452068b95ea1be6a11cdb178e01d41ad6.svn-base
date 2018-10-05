@@ -65,17 +65,4 @@ public class Test8 {
 		  "wsd://com.isoft/s:service.impl,server;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
-	@Test
-	public void test7(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		  String wsd_url = "wsd://com.isoft.so/d:dao.dao,mapper;";
-		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
-	@Test
-	public void test8(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.isoft/d:mapper,dao.impl;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

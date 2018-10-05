@@ -429,12 +429,7 @@ public class PgBuilder {
 			String webPath = webModulePath + fp;
 			logger.debug("webPath="+webPath);
 			
-			StringBuilder sb = new StringBuilder();
-			sb.append("package "+package0+";\n\n");
-			sb.append("public class "+fileName+"{\n\n");
-			sb.append("\t//TODO \n\n");
-			sb.append("}\n");
-			output(webPath, sb);
+			outputClass(webPath, package0, fileName);
 			
 			/*BufferedOutputStream bos = null;
 			try {
@@ -589,16 +584,7 @@ public class PgBuilder {
 		for (String file : names) {
 			logger.debug(">>>>>"+sPath+"/"+filePerfix+file+fileSuffix+".java");
 			
-			String interfaceName = filePerfix + captureName(file);
-			String interfacePath = sPath+"/"+interfaceName+".java";
-			StringBuilder sb = new StringBuilder();
-			sb.append("package "+perfix+"."+s+";\n\n");
-			sb.append("public interface "+interfaceName+"{\n\n");
-			sb.append("\t//TODO \n\n");
-			sb.append("}\n");
-			output(interfacePath, sb);
-			
-			/*BufferedOutputStream bos = null;
+			BufferedOutputStream bos = null;
 			String interfaceName = filePerfix + captureName(file);
 			String implName = captureName(file) + captureName(fileSuffix);
 			String interfacePath = sPath+"/"+interfaceName+".java";
@@ -616,19 +602,9 @@ public class PgBuilder {
 				bos.write(sb.toString().getBytes());
 				bos.close();
 			} catch (IOException e) {
-			}*/
+			}
 			
-			String implName = captureName(file) + captureName(fileSuffix);
-			String implPath =  sPath+"/"+implName+".java";
-			StringBuilder sb2 = new StringBuilder();
-			sb2.append("package "+perfix +"." +s+";\n\n");
-			sb2.append("public class "+implName);
-			sb2.append(" implements "+interfaceName+" {\n\n");
-			sb2.append("\t//TODO \n\n");
-			sb2.append("}\n");
-			output(implPath, sb2);
-			
-			/*BufferedOutputStream bos2 = null;
+			BufferedOutputStream bos2 = null;
 			String implPath =  sPath+"/"+implName+".java";
 			try {
 				bos2 = new BufferedOutputStream(new FileOutputStream(
@@ -646,7 +622,7 @@ public class PgBuilder {
 				bos2.write(sb.toString().getBytes());
 				bos2.close();
 			} catch (IOException e) {
-			}*/
+			}
 		}
 	}
 
@@ -670,24 +646,9 @@ public class PgBuilder {
 			logger.debug("implPath="+implPath);
 			String implFileName = implPath + "/" 
 					+ captureName(file) + implSuffix + ".java";
+			
+			BufferedOutputStream bos2 = null;
 			String interfaceName = captureName(file)+captureName(suffix);
-			StringBuilder sb = new StringBuilder();
-			sb.append("package "+package0+";\n\n");
-			sb.append("public interface "+interfaceName+"{\n\n");
-			sb.append("\t//TODO \n\n");
-			sb.append("}\n");
-			output(fileName, sb);
-			
-			StringBuilder sb2 = new StringBuilder();
-			sb2.append("package "+perfix +"." +s+";\n\n");
-			sb2.append("import "+package0+"."+interfaceName+";\n");
-			sb2.append("\npublic class "+captureName(file)+implSuffix);
-			sb2.append(" implements "+captureName(file)+captureName(suffix)+" {\n\n");
-			sb2.append("\t//TODO \n\n");
-			sb2.append("}\n");
-			output(implFileName, sb2);
-			/*BufferedOutputStream bos2 = null;
-			
 			try {
 				bos2 = new BufferedOutputStream(new FileOutputStream(
 						new File("src/"+fileName)));
@@ -703,8 +664,9 @@ public class PgBuilder {
 				bos2.write(sb.toString().getBytes());
 				bos2.close();
 			} catch (IOException e) {
-			}*/
-			/*BufferedOutputStream bos = null;
+			}
+			
+			BufferedOutputStream bos = null;
 			try {
 				bos = new BufferedOutputStream(new FileOutputStream(
 						new File("src/"+implFileName)));
@@ -722,7 +684,7 @@ public class PgBuilder {
 				bos.write(sb.toString().getBytes());
 				bos.close();
 			} catch (IOException e) {
-			}*/
+			}
 		}
 	}
 
@@ -743,12 +705,7 @@ public class PgBuilder {
 //							File f = new File("src/"+fileName);
 				
 				String name = captureName(file)+captureName(suffix);
-				StringBuilder sb = new StringBuilder();
-				sb.append("package "+package0+";\n\n");
-				sb.append("public class "+name+"{\n\n");
-				sb.append("\t//TODO \n\n");
-				sb.append("}\n");
-				output(fileName, sb);
+				outputClass(fileName, package0, name);
 				
 				/*BufferedOutputStream bos = null;
 				try {
@@ -772,7 +729,7 @@ public class PgBuilder {
 	}
 	
 	//outputClass , outputInterface
-	private void output(String path,StringBuilder sb){
+	private void outputClass(String path,String pg,String name){
 		BufferedOutputStream bos = null;
 		try {
 			bos = new BufferedOutputStream(new FileOutputStream(
@@ -780,6 +737,12 @@ public class PgBuilder {
 		} catch (FileNotFoundException e) {
 		}
 		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("package "+pg+";\n\n");
+			sb.append("public class "+name+"{\n\n");
+			sb.append("\t//TODO \n\n");
+			sb.append("}\n");
+			
 			bos.write(sb.toString().getBytes());
 			bos.close();
 		} catch (IOException e) {

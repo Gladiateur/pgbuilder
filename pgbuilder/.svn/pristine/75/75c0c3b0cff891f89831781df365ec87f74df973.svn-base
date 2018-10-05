@@ -263,14 +263,38 @@ public class PgBuilder {
 			}else{
 				//不包括点的情况
 //				serviceNotContainsDot(perfix, moduleName, s);
-				Config config = new Config();
-				config.setFileSuffix(s);
-				String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-				outputService2(perfix, s, config, moduleName);
+				serviceNotContainsDot2(perfix, s);
 			}
 		}
 	}
 
+//	private void serviceNotContainsDot(String perfix, String moduleName,
+//			String s) {
+	private void serviceNotContainsDot2(String perfix,String s) {
+		Config config = new Config();
+		config.setFileSuffix(s);
+		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+		outputService2(perfix, s, config, moduleName);
+		
+//		String interfaceName = filePerfix + captureName(moduleName);
+//		String interfacePath = sPath+"/"+interfaceName+".java";
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("package "+perfix+"."+s+";\n\n");
+//		sb.append("public interface "+interfaceName+"{\n\n");
+//		sb.append("\t//TODO \n\n");
+//		sb.append("}\n");
+//		output(interfacePath, sb);
+//		
+//		String implName = captureName(moduleName) + captureName(fileSuffix);
+//		String implPath =  sPath+"/"+implName+".java";
+//		StringBuilder sb2 = new StringBuilder();
+//		sb2.append("package "+perfix +"." +s+";\n\n");
+//		sb2.append("public class "+implName);
+//		sb2.append(" implements "+interfaceName+" {\n\n");
+//		sb2.append("\t//TODO \n\n");
+//		sb2.append("}\n");
+//		output(implPath, sb2);
+	}
 	private void outputService2(String perfix,String s,Config config,String moduleName){
 		String sPath = (perfix+"."+s).replaceAll("\\.", "/");
 		String interfaceName = config.getFilePerfix() + captureName(moduleName);
@@ -421,12 +445,35 @@ public class PgBuilder {
 				//不包含点的情况
 				//abc  即生成接口又生成实现类
 				logger.debug("not contains dot :"+s);
-				Config config = new Config();
-				config.setFileSuffix(s);
-				for (String moduleName : names) {
-					outputService2(perfix, s, config, moduleName);
-				}
+				serviceNotContainsDot(perfix, s);
 			}
+		}
+	}
+
+	private void serviceNotContainsDot(String perfix, String s) {
+		Config config = new Config();
+		config.setFileSuffix(s);
+		for (String moduleName : names) {
+			outputService2(perfix, s, config, moduleName);
+
+//			String interfaceName = filePerfix + captureName(file);
+//			String interfacePath = sPath+"/"+interfaceName+".java";
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("package "+perfix+"."+s+";\n\n");
+//			sb.append("public interface "+interfaceName+"{\n\n");
+//			sb.append("\t//TODO \n\n");
+//			sb.append("}\n");
+//			output(interfacePath, sb);
+//			
+//			String implName = captureName(file) + captureName(fileSuffix);
+//			String implPath =  sPath+"/"+implName+".java";
+//			StringBuilder sb2 = new StringBuilder();
+//			sb2.append("package "+perfix +"." +s+";\n\n");
+//			sb2.append("public class "+implName);
+//			sb2.append(" implements "+interfaceName+" {\n\n");
+//			sb2.append("\t//TODO \n\n");
+//			sb2.append("}\n");
+//			output(implPath, sb2);
 		}
 	}
 

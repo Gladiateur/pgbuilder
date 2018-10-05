@@ -170,6 +170,9 @@ public class PgBuilder {
 					webBox2(perfix, webs);
 				}
 				if(services != null){
+					logger.debug("services box2");
+//					serviceBox(perfix, moduleName, services);
+//					serviceBox2(perfix,services);
 					serviceBox(perfix, services,1);
 				}
 				if(daos != null){
@@ -276,6 +279,26 @@ public class PgBuilder {
 		sb2.append("}\n");
 		output(implFileName, sb2);
 	}
+
+//	private void serviceBox(String perfix, String moduleName, String services) {
+//	private void serviceBox2(String perfix,String services) {
+//		String[] service = services.split(",");
+//		for (String s : service) {
+//			if(s.contains(".")){
+//				//包括点的情况
+//				Config config = config(perfix, s);
+//				String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+//				serviceHandler(perfix, s, config, moduleName);
+//			}else{
+//				//不包括点的情况
+////				serviceNotContainsDot(perfix, moduleName, s);
+//				Config config = new Config();
+//				config.setFileSuffix(s);
+//				String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+//				outputService2(perfix, s, config, moduleName);
+//			}
+//		}
+//	}
 
 	private void outputService2(String perfix,String s,Config config,String moduleName){
 		String sPath = (perfix+"."+s).replaceAll("\\.", "/");
@@ -411,6 +434,30 @@ public class PgBuilder {
 			output(implFileName, sb2);
 		}
 	}
+
+//	private void serviceBox(String perfix, String services) {
+//		String[] service = services.split(",");
+//		for (String s : service) {
+//			logger.debug("s="+s);
+//			if(s.contains(".")){
+//				//包含点的情况：aa.bb.cc在bb生成接口，在cc生成实现类
+//				logger.debug("contains dot :"+s);
+//				Config config = config(perfix, s);
+//				for (String moduleName : names) {
+//					serviceHandler(perfix, s, config, moduleName);
+//				}
+//			}else{
+//				//不包含点的情况
+//				//abc  即生成接口又生成实现类
+//				logger.debug("not contains dot :"+s);
+//				Config config = new Config();
+//				config.setFileSuffix(s);
+//				for (String moduleName : names) {
+//					outputService2(perfix, s, config, moduleName);
+//				}
+//			}
+//		}
+//	}
 
 	private void serviceHandler(String perfix, String s, Config config,
 			String moduleName) {

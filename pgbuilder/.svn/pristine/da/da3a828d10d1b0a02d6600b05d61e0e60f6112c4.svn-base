@@ -158,6 +158,7 @@ public class PgBuilder {
 					//与service类似
 					//存在点时aa.bb.cc在bb生成接口在cc生成实现类
 					//不存在点时只生成接口
+					logger.debug("daos box");
 					daoBox(perfix, daos);
 				}
 			}
@@ -166,8 +167,7 @@ public class PgBuilder {
 			for (String moduleName : names) {
 				logger.debug("moduleName >> "+moduleName);
 				if(webs != null){
-//					webBox(perfix, moduleName, webs);
-					webBox(perfix, webs);
+					webBox(perfix, moduleName, webs);
 				}
 				if(services != null){
 					logger.debug("services box2");
@@ -404,8 +404,7 @@ public class PgBuilder {
 		}
 	}
 
-//	private void webBox(String perfix, String moduleName, String webs) {
-	private void webBox(String perfix, String webs) {
+	private void webBox(String perfix, String moduleName, String webs) {
 		String[] web = webs.split(",");
 		for (String w : web) {
 			String webSuffix = w.substring(w.lastIndexOf(".")+1);
@@ -414,7 +413,7 @@ public class PgBuilder {
 			
 			String package0 = perfix+"."+w;
 			logger.debug(">>>>>>>>>>>>>perfix="+perfix);
-			String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+			moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
 			String webModulePath =package0 .replaceAll("\\.", "/");
 			
 			String fileName = captureName(moduleName) + webSuffix;

@@ -314,6 +314,17 @@ public class PgBuilder {
 	
 //	private void serviceContainsDot(String perfix,String moduleName, String s) {
 	private void serviceContainsDot2(String perfix,String s) {
+//		Config config = new Config();
+//		String suffix = s.substring(0,s.lastIndexOf('.'));
+//		config.setSuffix(suffix);
+//		String package0 = perfix+"."+suffix;
+//		config.setPackage0(package0);
+//		String impl = s.substring(s.lastIndexOf(".")+1);
+//		config.setImpl(impl); 
+//		config.setImplSuffix(captureName(suffix) + captureName(impl));
+//		config.setImplPath((perfix +"." +s).replaceAll("\\.", "/"));
+//		config.setServicePath(package0.replaceAll("\\.", "/"));
+		
 		Config config = config(perfix, s);
 		
 		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
@@ -487,6 +498,17 @@ public class PgBuilder {
 	}
 
 	private void serviceContainsDot(String perfix, String s) {
+//		Config config = new Config();
+//		String suffix = s.substring(0,s.lastIndexOf('.'));
+//		config.setSuffix(suffix);
+//		String package0 = perfix+"."+suffix;
+//		config.setPackage0(package0);
+//		String impl = s.substring(s.lastIndexOf(".")+1);
+//		config.setImpl(impl); 
+//		config.setImplSuffix(captureName(suffix) + captureName(impl));
+//		config.setImplPath((perfix +"." +s).replaceAll("\\.", "/"));
+//		config.setServicePath(package0.replaceAll("\\.", "/"));
+		
 		Config config = config(perfix, s);
 		
 		for (String file : names) {

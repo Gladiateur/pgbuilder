@@ -52,19 +52,17 @@ public class Test8 {
 		String wsd_url = "wsd://com.isoft.app/w:controller,web.actions;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
-	/////////////////
 	@Test
 	public void test5(){
 		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		  String wsd_url = "wsd://com.isoft.app/s:event.impl;";
+		  String wsd_url = "wsd://com.isoft.app/s:inter.impl;";
 		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
-	////////////////
 	@Test
 	public void test6(){
 		String wsd_pojo="gla.myapp.pojo";
 		String wsd_url=
-		  "wsd://com.alibaba/s:ebi.impl;";
+		  "wsd://com.alibaba/s:service.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 	@Test

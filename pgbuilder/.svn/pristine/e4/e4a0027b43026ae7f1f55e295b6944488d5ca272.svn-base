@@ -1,7 +1,7 @@
 /*
  * PgBuilder.java 18/9/30
  */
-package gla.pgbuilder.builder;
+package versions;
 
 import gla.pgbuilder.exception.WsdException;
 
@@ -298,33 +298,24 @@ public class PgBuilder {
 		output(implPath, sb2);
 	}
 
-	private Config config(String perfix,String s){
-		Config config = new Config();
-		String suffix = s.substring(0,s.lastIndexOf('.'));
-		config.setSuffix(suffix);
-		String package0 = perfix+"."+suffix;
-		config.setPackage0(package0);
-		String impl = s.substring(s.lastIndexOf(".")+1);
-		config.setImpl(impl); 
-		config.setImplSuffix(captureName(suffix) + captureName(impl));
-		config.setImplPath((perfix +"." +s).replaceAll("\\.", "/"));
-		config.setServicePath(package0.replaceAll("\\.", "/"));
-		return config;
-	}
-	
 //	private void serviceContainsDot(String perfix,String moduleName, String s) {
 	private void serviceContainsDot2(String perfix,String s) {
-		Config config = config(perfix, s);
+		String suffix = s.substring(0,s.lastIndexOf('.'));
+		String package0 = perfix+"."+suffix;
+		String impl = s.substring(s.lastIndexOf(".")+1);
+		String implSuffix = captureName(suffix) + captureName(impl);
+		String implPath = (perfix +"." +s).replaceAll("\\.", "/");
+		String servicePath = package0.replaceAll("\\.", "/");
 		
 		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-		String interfaceName = captureName(moduleName)+captureName(config.getSuffix());
-		String fileName = config.getServicePath() + "/" + interfaceName + ".java";	
+		String interfaceName = captureName(moduleName)+captureName(suffix);
+		String fileName = servicePath + "/" + interfaceName + ".java";	
 
-		String implFileName = config.getImplPath() + "/" 
-				+ captureName(moduleName) + config.getImplSuffix() + ".java";
+		String implFileName = implPath + "/" 
+				+ captureName(moduleName) + implSuffix + ".java";
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("package "+config.getPackage0()+";\n\n");
+		sb.append("package "+package0+";\n\n");
 		sb.append("public interface "+interfaceName+"{\n\n");
 		sb.append("\t//TODO \n\n");
 		sb.append("}\n");
@@ -332,9 +323,9 @@ public class PgBuilder {
 		
 		StringBuilder sb2 = new StringBuilder();
 		sb2.append("package "+perfix +"." +s+";\n\n");
-		sb2.append("import "+config.getPackage0()+"."+interfaceName+";\n");
-		sb2.append("\npublic class "+captureName(moduleName)+config.getImplSuffix());
-		sb2.append(" implements "+captureName(moduleName)+captureName(config.getSuffix())+" {\n\n");
+		sb2.append("import "+package0+"."+interfaceName+";\n");
+		sb2.append("\npublic class "+captureName(moduleName)+implSuffix);
+		sb2.append(" implements "+captureName(moduleName)+captureName(suffix)+" {\n\n");
 		sb2.append("\t//TODO \n\n");
 		sb2.append("}\n");
 		output(implFileName, sb2);
@@ -487,18 +478,37 @@ public class PgBuilder {
 	}
 
 	private void serviceContainsDot(String perfix, String s) {
-		Config config = config(perfix, s);
+		String suffix = s.substring(0,s.lastIndexOf('.'));
+		String package0 = (perfix+"." + suffix);
+		String impl = s.substring(s.lastIndexOf(".")+1);
+		logger.debug("s:impl="+impl);
+		String implSuffix = captureName(suffix) + captureName(impl);
+		logger.debug("implSuffix="+implSuffix);
+		String implPath = (perfix +"." +s).replaceAll("\\.", "/");
+		logger.debug("implPath="+implPath);
+		String servicePath = package0.replaceAll("\\.", "/");
 		
+//		String suffix = s.substring(0,s.lastIndexOf('.'));
+//		logger.debug("suffix = "+suffix);
+//		String package0 = (perfix+"." + suffix);
+//		String servicePath = package0.replaceAll("\\.", "/");
+//		logger.debug("servicePath="+servicePath);
 		for (String file : names) {
-			String fileName = config.getServicePath() + "/" 
-					+ captureName(file) + captureName(config.getSuffix()) + ".java";
+			String fileName = servicePath + "/" 
+					+ captureName(file) + captureName(suffix) + ".java";
 			logger.debug("s:fileName="+fileName);
+			//String impl = s.substring(s.lastIndexOf(".")+1);
+			//logger.debug("s:impl="+impl);
 			
-			String implFileName = config.getImplPath() + "/" 
-					+ captureName(file) + config.getImplSuffix() + ".java";
-			String interfaceName = captureName(file)+captureName(config.getSuffix());
+			//String implSuffix = captureName(suffix) + captureName(impl);
+			//logger.debug("implSuffix="+implSuffix);
+			//String implPath = (perfix +"." +s).replaceAll("\\.", "/");
+			//logger.debug("implPath="+implPath);
+			String implFileName = implPath + "/" 
+					+ captureName(file) + implSuffix + ".java";
+			String interfaceName = captureName(file)+captureName(suffix);
 			StringBuilder sb = new StringBuilder();
-			sb.append("package "+config.getPackage0()+";\n\n");
+			sb.append("package "+package0+";\n\n");
 			sb.append("public interface "+interfaceName+"{\n\n");
 			sb.append("\t//TODO \n\n");
 			sb.append("}\n");
@@ -506,9 +516,9 @@ public class PgBuilder {
 			
 			StringBuilder sb2 = new StringBuilder();
 			sb2.append("package "+perfix +"." +s+";\n\n");
-			sb2.append("import "+config.getPackage0()+"."+interfaceName+";\n");
-			sb2.append("\npublic class "+captureName(file)+config.getImplSuffix());
-			sb2.append(" implements "+captureName(file)+captureName(config.getSuffix())+" {\n\n");
+			sb2.append("import "+package0+"."+interfaceName+";\n");
+			sb2.append("\npublic class "+captureName(file)+implSuffix);
+			sb2.append(" implements "+captureName(file)+captureName(suffix)+" {\n\n");
 			sb2.append("\t//TODO \n\n");
 			sb2.append("}\n");
 			output(implFileName, sb2);

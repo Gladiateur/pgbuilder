@@ -56,7 +56,7 @@ public class Test8 {
 	@Test
 	public void test5(){
 		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		  String wsd_url = "wsd://com.isoft.ooxx/s:abc.def;";
+		  String wsd_url = "wsd://com.isoft.api/s:service.impl;";
 		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
 	////////////////
@@ -64,7 +64,7 @@ public class Test8 {
 	public void test6(){
 		String wsd_pojo="gla.myapp.pojo";
 		String wsd_url=
-		  "wsd://com.ooxx/s:abc.jkk;";
+		  "wsd://com.api/s:service.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 	@Test

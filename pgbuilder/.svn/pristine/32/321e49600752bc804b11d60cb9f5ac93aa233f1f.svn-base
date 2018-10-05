@@ -257,6 +257,9 @@ public class PgBuilder {
 		for (String s : service) {
 			if(s.contains(".")){
 				//包括点的情况
+				logger.debug("s:contains dots ="+s);
+//				serviceContainsDot(perfix,moduleName,s);
+//				serviceContainsDot2(perfix,s);
 				Config config = config(perfix, s);
 				String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
 				serviceHandler(perfix, s, config, moduleName);
@@ -312,6 +315,13 @@ public class PgBuilder {
 		return config;
 	}
 	
+//	private void serviceContainsDot(String perfix,String moduleName, String s) {
+//	private void serviceContainsDot2(String perfix,String s) {
+//		Config config = config(perfix, s);
+//		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+//		serviceHandler(perfix, s, config, moduleName);
+//	}
+
 //	private void webBox(String perfix, String moduleName, String webs) {
 	private void webBox2(String perfix, String webs) {
 		String[] web = webs.split(",");
@@ -418,6 +428,7 @@ public class PgBuilder {
 			if(s.contains(".")){
 				//包含点的情况：aa.bb.cc在bb生成接口，在cc生成实现类
 				logger.debug("contains dot :"+s);
+//				serviceContainsDot(perfix, s);
 				Config config = config(perfix, s);
 				for (String moduleName : names) {
 					serviceHandler(perfix, s, config, moduleName);
@@ -460,6 +471,13 @@ public class PgBuilder {
 			output(implPath, sb2);
 		}
 	}
+
+//	private void serviceContainsDot(String perfix, String s) {
+//		Config config = config(perfix, s);
+//		for (String moduleName : names) {
+//			serviceHandler(perfix, s, config, moduleName);
+//		}
+//	}
 
 	private void serviceHandler(String perfix, String s, Config config,
 			String moduleName) {

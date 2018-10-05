@@ -178,31 +178,30 @@ public class PgBuilder {
 					logger.debug("dao box...");
 					//a.b.c	b包生成接口，c包生成实现类
 					//aaa  仅生成接口
-//					daoBox(perfix, moduleName, daos);
-					daoBox2(perfix,daos);
+					daoBox(perfix, moduleName, daos);
 				}
 			}
 		}
 	}
 
-	private void daoBox2(String perfix,String daos) {
+	private void daoBox(String perfix, String moduleName, String daos) {
 		String[] dao = daos.split(",");
 		for (String d : dao) {
 			if(d.contains(".")){
 				//...a.b.c
 				logger.debug("d>>contains dot="+d);
-				daoContainsDot2(perfix,d);
+				daoContainsDot(perfix,moduleName,d);
 			}else{
 				//aaa
 				logger.debug("d>>not contains dot="+d);
-				daoNotContainsDot2(perfix,d);
+				daoNotContainsDot(perfix,moduleName,d);
 			}
 		}
 	}
 
-	private void daoNotContainsDot2(String perfix,String d) {
+	private void daoNotContainsDot(String perfix,String moduleName,String d) {
 		String sPath = (perfix+"."+d).replaceAll("\\.", "/");
-		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+		moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
 		BufferedOutputStream bos = null;
 		String interfaceName = captureName(moduleName)+captureName(d);
 		String interfacePath = sPath+"/"+interfaceName+".java";
@@ -223,10 +222,10 @@ public class PgBuilder {
 		}
 	}
 
-	private void daoContainsDot2(String perfix,String d) {
+	private void daoContainsDot(String perfix,String moduleName,String d) {
 		String suffix = d.substring(0,d.lastIndexOf('.'));
 		String package0 = perfix+"."+suffix;
-		String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+		moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
 		String interfaceName = captureName(moduleName)+captureName(suffix);
 		String fileName = package0.replaceAll("\\.", "/") + "/" 
 				+ interfaceName + ".java";

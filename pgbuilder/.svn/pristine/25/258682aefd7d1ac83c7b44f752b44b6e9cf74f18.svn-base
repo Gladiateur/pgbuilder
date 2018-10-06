@@ -191,28 +191,30 @@ public class PgBuilder {
 				Config config = config(perfix, s);
 				if(leader == 0){
 					for (String moduleName : names) {
-						serviceHandlerContainsDot(perfix, s, config, moduleName);
+						serviceHandler(perfix, s, config, moduleName);
 					}
 				}else if(leader == 1){
 					String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-					serviceHandlerContainsDot(perfix, s, config, moduleName);
+					serviceHandler(perfix, s, config, moduleName);
 				}
 			}else{
 				Config config = new Config();
 				config.setFileSuffix(s);
 				if(leader == 0){
 					for (String moduleName : names) {
-						serviceHandlerNotContainsDot(perfix, s, config, moduleName);
+//						outputService2(perfix, s, config, moduleName);
+						serviceHandler2(perfix, s, config, moduleName);
 					}
 				}else if(leader == 1){
 					String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-					serviceHandlerNotContainsDot(perfix, s, config, moduleName);
+//					outputService2(perfix, s, config, moduleName);
+					serviceHandler2(perfix, s, config, moduleName);
 				}
 			}
 		}
 	}
 	
-	private void serviceHandlerNotContainsDot(String perfix, String s, Config config,
+	private void serviceHandler2(String perfix, String s, Config config,
 			String moduleName) {
 		String interfaceName = config.getFilePerfix() + captureName(moduleName);
 		String filePath = (perfix+"."+s).replaceAll("\\.", "/");
@@ -223,9 +225,9 @@ public class PgBuilder {
 		config.setImplPath(implPath);
 		config.setImpl(implName);
 		config.setFilePath(interfacePath);
-		outputServiceNotContainsDot(perfix, s, config, moduleName);
+		outputService2(perfix, s, config, moduleName);
 	}
-	private void outputServiceNotContainsDot(String perfix,String s,Config config,String moduleName){
+	private void outputService2(String perfix,String s,Config config,String moduleName){
 		String interfaceName = config.getInterfaceName();
 		String implPath = config.getImplPath();
 		String implName = config.getImpl();
@@ -259,14 +261,14 @@ public class PgBuilder {
 		return config;
 	}
 	
-	private void serviceHandlerContainsDot(String perfix, String s, Config config,
+	private void serviceHandler(String perfix, String s, Config config,
 			String moduleName) {
 		String interfaceName = captureName(moduleName)+captureName(config.getSuffix());
 		String filePath = config.getServicePath() + "/" 
 				+ interfaceName + ".java";
 		config.setInterfaceName(interfaceName);
 		config.setFilePath(filePath);
-		outputServiceContainsDot(perfix, s, config, moduleName);
+		outputService(perfix, s, config, moduleName);
 	}
 //	private void serviceHandler2(String perfix, String s, Config config,
 //			String moduleName) {
@@ -277,7 +279,7 @@ public class PgBuilder {
 //		config.setFilePath(filePath);
 //		outputService2(perfix, s, config, moduleName);
 //	}
-	private void outputServiceContainsDot(String perfix, String s,Config config,String moduleName){
+	private void outputService(String perfix, String s,Config config,String moduleName){
 		String implFileName = config.getImplPath() + "/" 
 				+ captureName(moduleName) + config.getImplSuffix() + ".java";
 		StringBuilder sb = new StringBuilder();

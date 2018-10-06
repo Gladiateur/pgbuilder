@@ -142,18 +142,4 @@ public class Test8 {
 		  "wsd://com.sss/s:service;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
-	
-	@Test
-	public void test18(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		  String wsd_url = "wsd://com.test.b/w:aaa,bbb.ccc;s:ddd,eee.fff;d:mmm,nnn.ttt;";
-		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
-	@Test
-	public void test19(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.test/w:aaa,bbb.ccc;s:ddd,eee.fff;d:mmm,nnn.ttt;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

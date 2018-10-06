@@ -100,26 +100,5 @@ public class Test8 {
 		  String wsd_url = "wsd://com.test.soft/w:action,web.controller;s:service.impl,ebo;";
 		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
 	}
-	@Test
-	public void test12(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.test/w:controller,wb.action;s:ebi.ebo,service;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 	
-	@Test
-	//test dao contains dot and not contains dot
-	public void test13(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		  String wsd_url = "wsd://com.testdao.demo/d:mapper;";
-		  gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_url);
-	}
-	@Test
-	public void test14(){
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.testdao/d:mapper;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }

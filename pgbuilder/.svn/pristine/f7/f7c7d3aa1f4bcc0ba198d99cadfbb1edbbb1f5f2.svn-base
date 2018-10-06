@@ -248,6 +248,32 @@ public class PgBuilder {
 		return config;
 	}
 	
+//	private void webBox(String perfix, String moduleName, String webs) {
+	private void webBox2(String perfix, String webs) {
+		String[] web = webs.split(",");
+		for (String w : web) {
+			String webSuffix = w.substring(w.lastIndexOf(".")+1);
+			webSuffix = captureName(webSuffix);
+			logger.debug("webSuffix="+webSuffix);
+			String package0 = perfix+"."+w;
+			logger.debug(">>>>>>>>>>>>>perfix="+perfix);
+			String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
+			String webModulePath =package0 .replaceAll("\\.", "/");
+			
+			String fileName = captureName(moduleName) + webSuffix;
+			String fp = "/" + fileName + ".java";
+			String webPath = webModulePath + fp;
+			logger.debug("webPath="+webPath);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("package "+package0+";\n\n");
+			sb.append("public class "+fileName+"{\n\n");
+			sb.append("\t//TODO \n\n");
+			sb.append("}\n");
+			output(webPath, sb);
+		}
+	}
+
 	private void serviceHandler(String perfix, String s, Config config,
 			String moduleName) {
 		String interfaceName = captureName(moduleName)+captureName(config.getSuffix());
@@ -276,6 +302,32 @@ public class PgBuilder {
 		output(implFileName, sb2);
 	}
 
+//	private void webBox( String webs) {
+	/*private void webBox(String perfix, String webs) {
+		String[] web = webs.split(",");
+		for (String w : web) {
+			logger.debug("w="+w);
+			String package0 = perfix+"."+w;
+			logger.debug("web_package:"+package0);
+			String path0 = package0.replaceAll("\\.", "/");
+			logger.debug("path0="+path0);
+			
+			for (String file : names) {
+				String suffix = path0.substring(path0.lastIndexOf('/')+1);
+				String fileName = path0+"/"+captureName(file)+captureName(suffix)+".java";
+				logger.debug("fileName="+fileName);
+//							File f = new File("src/"+fileName);
+				
+				String name = captureName(file)+captureName(suffix);
+				StringBuilder sb = new StringBuilder();
+				sb.append("package "+package0+";\n\n");
+				sb.append("public class "+name+"{\n\n");
+				sb.append("\t//TODO \n\n");
+				sb.append("}\n");
+				output(fileName, sb);
+			}
+		}
+	}*/
 	private void webBox(String perfix, String webs,int leader) {
 		String[] web = webs.split(",");
 		for (String w : web) {
@@ -306,6 +358,9 @@ public class PgBuilder {
 		output(webPath, sb);
 	}
 	
+	
+	
+	//outputClass , outputInterface
 	private void output(String path,StringBuilder sb){
 		BufferedOutputStream bos = null;
 		try {

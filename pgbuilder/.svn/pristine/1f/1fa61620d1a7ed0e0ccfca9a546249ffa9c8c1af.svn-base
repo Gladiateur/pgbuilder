@@ -223,11 +223,6 @@ public class PgBuilder {
 			config.setImplPath(implPath);
 			config.setImpl(implName);
 			config.setInterfaceName(interfaceName);
-			
-			String interfacePath = filePath+"/"+interfaceName+".java";
-			logger.debug("interfacePath="+interfacePath);
-			config.setInterfaceName(interfaceName);
-			config.setFilePath(interfacePath);
 		}else{
 			String interfaceName = captureName(moduleName)+captureName(config.getFileSuffix());
 			String filePath = (perfix+"."+s).replaceAll("\\.", "/");

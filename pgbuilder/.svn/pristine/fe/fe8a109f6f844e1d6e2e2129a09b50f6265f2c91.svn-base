@@ -150,31 +150,34 @@ public class PgBuilder {
 					//ebi.ebo		ebi(接口)		ebo(类)
 					//service		service(接口前缀I,类后缀为service)
 					//impl			impl(接口前缀I，类后缀为impl)
-					serviceBox(perfix, services,0,true);
+					serviceBox(perfix, services,0);
 				}
 				if(daos != null){
 					//与service类似
 					//存在点时aa.bb.cc在bb生成接口在cc生成实现类
 					//不存在点时只生成接口
-					serviceBox(perfix, daos,0,false);
+					serviceBox(perfix, daos,0);
 				}
 			}
 		}else{
 			//已实体类为模块生成对应各层的类
+			//for (String moduleName : names) {
 				if(webs != null){
 					webBox(perfix,webs,1);
 				}
 				if(services != null){
-					serviceBox(perfix, services,1,true);
+					serviceBox(perfix, services,1);
 				}
 				if(daos != null){
 					//a.b.c	b包生成接口，c包生成实现类
 					//aaa  仅生成接口
-					serviceBox(perfix, daos,1,false);
+//					daoBox(perfix, moduleName, daos);
+					serviceBox(perfix, daos,1);
 				}
+			//}
 		}
 	}
-	private void serviceBox(String perfix, String services,int leader,boolean impl) {
+	private void serviceBox(String perfix, String services,int leader) {
 		String[] service = services.split(",");
 		for (String s : service) {
 			if(s.contains(".")){
@@ -192,81 +195,47 @@ public class PgBuilder {
 				config.setFileSuffix(s);
 				if(leader == 0){
 					for (String moduleName : names) {
-						serviceHandlerNotContainsDot(perfix, s, config, moduleName,impl);
+						serviceHandlerNotContainsDot(perfix, s, config, moduleName);
 					}
 				}else if(leader == 1){
 					String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-					serviceHandlerNotContainsDot(perfix, s, config, moduleName,impl);
+					serviceHandlerNotContainsDot(perfix, s, config, moduleName);
 				}
 			}
 		}
 	}
 	
 	private void serviceHandlerNotContainsDot(String perfix, String s, Config config,
-			String moduleName,boolean impl) {
-//		String interfaceName = config.getFilePerfix() + captureName(moduleName);
-//		String filePath = (perfix+"."+s).replaceAll("\\.", "/");
-//		String interfacePath = filePath+"/"+interfaceName+".java";
-//		String implName = captureName(moduleName) + captureName(config.getFileSuffix());
-//		String implPath =  filePath+"/"+implName+".java";
-//		config.setInterfaceName(interfaceName);
-//		config.setImplPath(implPath);
-//		config.setImpl(implName);
-//		config.setFilePath(interfacePath);
-//		outputServiceNotContainsDot(perfix, s, config, moduleName);
-
-		if(impl){
-			String interfaceName = captureName(config.getFilePerfix()) + captureName(moduleName);
-			String filePath = (perfix+"."+s).replaceAll("\\.", "/");
-			String implName = captureName(moduleName) + captureName(config.getFileSuffix());
-			String implPath =  filePath+"/"+implName+".java";
-			config.setImplPath(implPath);
-			config.setImpl(implName);
-			config.setInterfaceName(interfaceName);
-			
-			String interfacePath = filePath+"/"+interfaceName+".java";
-			logger.debug("interfacePath="+interfacePath);
-			config.setInterfaceName(interfaceName);
-			config.setFilePath(interfacePath);
-		}else{
-			String interfaceName = captureName(moduleName)+captureName(config.getFileSuffix());
-			String filePath = (perfix+"."+s).replaceAll("\\.", "/");
-			String interfacePath = filePath+"/"+interfaceName+".java";
-			logger.debug("interfacePath="+interfacePath);
-			config.setInterfaceName(interfaceName);
-			config.setFilePath(interfacePath);
-		}
-		outputServiceNotContainsDot(perfix, s, config, moduleName,impl);
+			String moduleName) {
+		String interfaceName = config.getFilePerfix() + captureName(moduleName);
+		String filePath = (perfix+"."+s).replaceAll("\\.", "/");
+		String interfacePath = filePath+"/"+interfaceName+".java";
+		String implName = captureName(moduleName) + captureName(config.getFileSuffix());
+		String implPath =  filePath+"/"+implName+".java";
+		config.setInterfaceName(interfaceName);
+		config.setImplPath(implPath);
+		config.setImpl(implName);
+		config.setFilePath(interfacePath);
+		outputServiceNotContainsDot(perfix, s, config, moduleName);
 	}
-	private void outputServiceNotContainsDot(String perfix,String s,Config config,String moduleName,boolean impl){
+	private void outputServiceNotContainsDot(String perfix,String s,Config config,String moduleName){
 		String interfaceName = config.getInterfaceName();
-		if(impl){
-			String interfacePath = config.getFilePath();
-			StringBuilder sb = new StringBuilder();
-			sb.append("package "+perfix+"."+s+";\n\n");
-			sb.append("public interface "+interfaceName+"{\n\n");
-			sb.append("\t//TODO \n\n");
-			sb.append("}\n");
-			output(interfacePath, sb);
-			
-			String implName = config.getImpl();
-			String implPath = config.getImplPath();
-			StringBuilder sb2 = new StringBuilder();
-			sb2.append("package "+perfix +"." +s+";\n\n");
-			sb2.append("public class "+implName);
-			sb2.append(" implements "+interfaceName+" {\n\n");
-			sb2.append("\t//TODO \n\n");
-			sb2.append("}\n");
-			output(implPath, sb2);
-		}else{
-			String interfacePath = config.getFilePath();
-			StringBuilder sb = new StringBuilder();
-			sb.append("package "+perfix+"."+s+";\n\n");
-			sb.append("public interface "+interfaceName+"{\n\n");
-			sb.append("\t//TODO \n\n");
-			sb.append("}\n");
-			output(interfacePath, sb);
-		}
+		String implPath = config.getImplPath();
+		String implName = config.getImpl();
+		String interfacePath = config.getFilePath();
+		StringBuilder sb = new StringBuilder();
+		sb.append("package "+perfix+"."+s+";\n\n");
+		sb.append("public interface "+interfaceName+"{\n\n");
+		sb.append("\t//TODO \n\n");
+		sb.append("}\n");
+		output(interfacePath, sb);
+		StringBuilder sb2 = new StringBuilder();
+		sb2.append("package "+perfix +"." +s+";\n\n");
+		sb2.append("public class "+implName);
+		sb2.append(" implements "+interfaceName+" {\n\n");
+		sb2.append("\t//TODO \n\n");
+		sb2.append("}\n");
+		output(implPath, sb2);
 	}
 
 	private Config config(String perfix,String s){

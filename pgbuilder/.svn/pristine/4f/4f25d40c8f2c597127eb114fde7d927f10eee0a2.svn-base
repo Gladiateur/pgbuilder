@@ -164,5 +164,4 @@ public class Test8 {
 		  "wsd://com.txt/s:service;d:mapper;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild( wsd_url);
 	}
-	//等待综合测试
 }

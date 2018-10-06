@@ -156,13 +156,4 @@ public class Test8 {
 		  "wsd://com.test/w:controller,web.action;s:service.impl,ebo;d:mapper,dao.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
-	
-	@Test
-	public void test20(){
-		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
-		String wsd_url=
-		  "wsd://com.txt/s:service;d:mapper;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild( wsd_url);
-	}
-	//等待综合测试
 }

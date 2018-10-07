@@ -222,20 +222,15 @@ public class Test8 {
 	public void test27(){
 		gla.pgbuilder.builder.PgBuilder.setWsdPojo("gla.myapp.pojo");
 		String wsd_url=
-		  "wsd://com.kkk/w:action;s:service.impl,ebo;d:mapper,dao.impl;";
+		  "wsd://com.kkk/w:action;s:service.impl;d:mapper,dao.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild( wsd_url);
 	}
 	@Test
 	public void test28(){
 		String wsd_pojo="gla.myapp.pojo";
 		String wsd_url=
-		  "wsd://com.kkk/w:action;s:service.impl,ebo;d:mapper;";
+		  "wsd://com.kkk/w:action;s:service.impl;d:mapper;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
 	}
 	//getSuffix,getFileSuffix就对了
-	//发现无法注入，因为存在多个service,dao
-	//因为wsd允许这样写：s:service.impl,ebi.ebo;
-	//那么在进行注入时应该注入哪个包下的类?
-	
-	
 }

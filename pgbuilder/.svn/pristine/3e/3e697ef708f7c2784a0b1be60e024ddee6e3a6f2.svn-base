@@ -228,14 +228,14 @@ public class PgBuilder {
 		}
 		outputServiceNotContainsDot(module,perfix, s, config, moduleName,impl);
 	}
-
 	private void outputServiceNotContainsDot(String module,String perfix,String s,Config config,String moduleName,boolean impl){
 		if("d".equals(module)){
 			logger.debug("DAO suffix="+config.getFileSuffix());
-			
+			daoSuffix = config.getFileSuffix();
 		}
 		if("s".equals(module)){
 			logger.debug("SERVICE suffix="+config.getFileSuffix());
+			serviceSuffix = config.getFileSuffix(); 
 		}
 		
 		String interfaceName = config.getInterfaceName();
@@ -289,6 +289,9 @@ public class PgBuilder {
 		outputServiceContainsDot(module,perfix, s, config, moduleName);
 	}
 
+	
+	private String daoSuffix;
+	private String serviceSuffix;
 	private void outputServiceContainsDot(String module,String perfix, String s,Config config,String moduleName){
 		String implFileName = config.getImplPath() + "/" 
 				+ captureName(moduleName) + config.getImplSuffix() + ".java";
@@ -299,6 +302,7 @@ public class PgBuilder {
 			sb.append("\nimport org.springframework.stereotype.Repository;\n\n");
 			sb.append("@Repository\n");
 			logger.debug("DAO suffix="+config.getSuffix());
+			daoSuffix = config.getSuffix();
 		}
 		
 		sb.append("public interface "+config.getInterfaceName()+"{\n\n");
@@ -313,6 +317,7 @@ public class PgBuilder {
 			sb2.append("\nimport org.springframework.stereotype.Service;\n\n");
 			sb2.append("@Service");
 			logger.debug("SERVICE suffix="+config.getSuffix());
+			serviceSuffix=config.getSuffix();
 		}
 		
 		sb2.append("\npublic class "+captureName(moduleName)+config.getImplSuffix());
@@ -342,14 +347,17 @@ public class PgBuilder {
 
 	private void webHandler(String package0, String path0, String moduleName,
 			String suffix) {
+		logger.debug(">>>daoSuffix="+daoSuffix);
+		logger.debug(">>>serviceSuffix="+serviceSuffix);
+		
 		String fileName = captureName(moduleName)+captureName(suffix);
 		String webPath = path0 + "/" + fileName + ".java";
 		StringBuilder sb = new StringBuilder();
 		sb.append("package "+package0+";\n\n");	
 		
 		sb.append("import org.springframework.stereotype.Controller;\n\n");
+		sb.append("@Controller\n");
 		
-		sb.append("\n@Controller\n");
 		sb.append("public class "+fileName+"{\n\n");
 		sb.append("\t//TODO \n\n");
 		sb.append("}\n");

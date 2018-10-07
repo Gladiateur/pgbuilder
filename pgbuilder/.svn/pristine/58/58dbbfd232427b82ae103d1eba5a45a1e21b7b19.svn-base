@@ -298,10 +298,10 @@ public class PgBuilder {
 		
 		if("s".equals(module)){
 			sb2.append("\nimport org.springframework.stereotype.Service;\n\n");
-			sb2.append("@Service");
+			sb2.append("@Service\n");
 		}
 		
-		sb2.append("\npublic class "+captureName(moduleName)+config.getImplSuffix());
+		sb2.append("public class "+captureName(moduleName)+config.getImplSuffix());
 		sb2.append(" implements "+captureName(moduleName)+captureName(config.getSuffix())+" {\n\n");
 		sb2.append("\t//TODO \n\n");
 		sb2.append("}\n");

@@ -192,17 +192,17 @@ public class PgBuilder {
 				config.setFileSuffix(s);
 				if(leader == 0){
 					for (String moduleName : names) {
-						serviceHandlerNotContainsDot(module,perfix, s, config, moduleName,impl);
+						serviceHandlerNotContainsDot(perfix, s, config, moduleName,impl);
 					}
 				}else if(leader == 1){
 					String moduleName = perfix.substring(perfix.lastIndexOf(".")+1);
-					serviceHandlerNotContainsDot(module,perfix, s, config, moduleName,impl);
+					serviceHandlerNotContainsDot(perfix, s, config, moduleName,impl);
 				}
 			}
 		}
 	}
 	
-	private void serviceHandlerNotContainsDot(String module,String perfix, String s, Config config,
+	private void serviceHandlerNotContainsDot(String perfix, String s, Config config,
 			String moduleName,boolean impl) {
 		String filePath = (perfix+"."+s).replaceAll("\\.", "/");
 		if(impl){
@@ -223,9 +223,9 @@ public class PgBuilder {
 			config.setInterfaceName(interfaceName);
 			config.setFilePath(interfacePath);
 		}
-		outputServiceNotContainsDot(module,perfix, s, config, moduleName,impl);
+		outputServiceNotContainsDot(perfix, s, config, moduleName,impl);
 	}
-	private void outputServiceNotContainsDot(String module,String perfix,String s,Config config,String moduleName,boolean impl){
+	private void outputServiceNotContainsDot(String perfix,String s,Config config,String moduleName,boolean impl){
 		String interfaceName = config.getInterfaceName();
 		String interfacePath = config.getFilePath();
 		StringBuilder sb = new StringBuilder();
@@ -239,12 +239,6 @@ public class PgBuilder {
 			String implPath = config.getImplPath();
 			StringBuilder sb2 = new StringBuilder();
 			sb2.append("package "+perfix +"." +s+";\n\n");
-			
-			if("s".equals(module)){
-				sb2.append("\nimport org.springframework.stereotype.Service;\n\n");
-				sb2.append("@Service\n");
-			}
-			
 			sb2.append("public class "+implName);
 			sb2.append(" implements "+interfaceName+" {\n\n");
 			sb2.append("\t//TODO \n\n");
@@ -282,12 +276,6 @@ public class PgBuilder {
 				+ captureName(moduleName) + config.getImplSuffix() + ".java";
 		StringBuilder sb = new StringBuilder();
 		sb.append("package "+config.getPackage0()+";\n\n");
-		
-		if("d".equals(module)){
-			sb.append("\nimport org.springframework.stereotype.Repository;\n\n");
-			sb.append("@Repository\n");
-		}
-		
 		sb.append("public interface "+config.getInterfaceName()+"{\n\n");
 		sb.append("\t//TODO \n\n");
 		sb.append("}\n");
@@ -298,10 +286,9 @@ public class PgBuilder {
 		
 		if("s".equals(module)){
 			sb2.append("\nimport org.springframework.stereotype.Service;\n\n");
-			sb2.append("@Service");
+			sb2.append("@Service\n");
 		}
-		
-		sb2.append("\npublic class "+captureName(moduleName)+config.getImplSuffix());
+		sb2.append("public class "+captureName(moduleName)+config.getImplSuffix());
 		sb2.append(" implements "+captureName(moduleName)+captureName(config.getSuffix())+" {\n\n");
 		sb2.append("\t//TODO \n\n");
 		sb2.append("}\n");

@@ -173,12 +173,4 @@ public class Test8 {
 		  "wsd://com.terento/w:controller;s:service,ebi.ebo;d:dao,idao.impl;";
 		gla.pgbuilder.builder.PgBuilder.pgBuild( wsd_url);
 	}
-	@Test
-	public void test22(){
-		//第二种url综合测试
-		String wsd_pojo="gla.myapp.pojo";
-		String wsd_url=
-		  "wsd://com.terento/w:controller;s:service,ebi.ebo;d:dao,idao.impl;";
-		gla.pgbuilder.builder.PgBuilder.pgBuild(wsd_pojo, wsd_url);
-	}
 }
